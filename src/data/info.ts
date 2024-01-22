@@ -132,5 +132,19 @@ export const info = {
       githubUrl: "https://github.com/fabio-cassisa/project-weather-app",
       liveUrl: "project-weather-app-sigma.vercel.app",
     },
+    {
+      title: "Project Happy Thoughts",
+      isFeatured: false,
+      thumbnail: "/assets/images/happyThoughts.png",
+      githubUrl: "https://github.com/fabio-cassisa/project-happy-thoughts",
+      liveUrl: "project-weather-app-sigma.vercel.app",
+    },
+    {
+      title: "Spotify Music Release",
+      isFeatured: true,
+      thumbnail: "/assets/images/musicRelease.png",
+      githubUrl: "https://github.com/fabio-cassisa/project-music-releases",
+      liveUrl: "https://music-releases-carl-fabio.netlify.app/",
+    },
   ],
 };
