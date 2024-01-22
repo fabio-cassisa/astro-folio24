@@ -1,5 +1,5 @@
 export const info = {
-  baseUrl: "https://astro-portfolio-uzair.vercel.app",
+  baseUrl: "https://portfolio24-dagas.netlify.app/",
   name: "Fabio Cassisa",
   jobDescription: "Design Technologist/Front-end Developer",
   about: `I am a designer/front-end developer based in Europe, you usually find me in Malmö, Copenaghen or Turin.
