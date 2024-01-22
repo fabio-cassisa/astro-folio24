@@ -146,5 +146,26 @@ export const info = {
       githubUrl: "https://github.com/fabio-cassisa/project-music-releases",
       liveUrl: "https://music-releases-carl-fabio.netlify.app/",
     },
+    {
+      title: "Book Library",
+      isFeatured: false,
+      thumbnail: "/assets/images/bookLibrary.png",
+      githubUrl: "https://github.com/fabio-cassisa/project-library",
+      liveUrl: "https://project-library-fabio.netlify.app/",
+    },
+    {
+      title: "Movie Library - React Router",
+      isFeatured: true,
+      thumbnail: "/assets/images/projectMovies.png",
+      githubUrl: "https://github.com/fabio-cassisa/project-movies-vite",
+      liveUrl: "https://project-movies-vite.vercel.app/",
+    },
+    {
+      title: "TO-DO App - React Redux",
+      isFeatured: false,
+      thumbnail: "/assets/images/projectTodo.png",
+      githubUrl: "https://github.com/fabio-cassisa/Todo",
+      liveUrl: "https://project-todo-list-peach.vercel.app/",
+    },
   ],
 };
