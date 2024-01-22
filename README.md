@@ -1,14 +1,10 @@
-# Portfolio Website - Astro
+# Portfolio Website, 24 - Astro
 
-Just change `src/data/info.ts` to get your personal portfolio.
-
-## portfolio template for Developers!
-
-![Feature Image](./public/assets/images/astro-portfolio.png)
+My portfolio website made in Astro, Tailwind CSS and Typescript. The website showcases the developer's skills, projects, and contact information. The website is responsive, accessible, and SEO-friendly. The initial source code is taken from [@uzzii-21](https://github.com/uzzii-21/astro-portfolio), who made a clean public template to start from and I give a big thanks and credit!
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Inside of this Astro portfolio website, you'll see the following folders and files:
 
 ```
 /
@@ -40,14 +36,6 @@ Inside of your Astro project, you'll see the following folders and files:
 ├── package.json
 └── ...
 ```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/assets` directory.
-
-Your personal data would be go on `src/data` directory.
 
 ## 🧞 Commands
 

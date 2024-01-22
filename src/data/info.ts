@@ -1,8 +1,8 @@
 export const info = {
   baseUrl: "https://astro-portfolio-uzair.vercel.app",
-  name: "Uzair Ahmed",
-  jobDescription: "Web Developer",
-  about: `I'm a software engineer based in Karachi, Pakistan.
+  name: "Fabio Cassisa",
+  jobDescription: "Design Technologist/Front-end Developer",
+  about: `I'm a designer/front-end developer based in Europe, you usually find me in Malmö, Copenaghen or Turin.
    I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between.
    I have been working for 3 year, with a demonstrated history of working in the Computer Software industry. Skilled in Front-end Development.
    I have 3 years of experience in HTML, CSS, SCSS, JavaScript, Bootstrap, tailwind CSS, StyledComponent, React JS and Next JS. Hence,
@@ -78,20 +78,27 @@ export const info = {
   ],
 
   socialMedia: {
-    facebook: "https://www.facebook.com/profile.php?id=100022899849583",
-    twitter: "https://twitter.com/Uzzii_21",
-    github: "https://github.com/uzzii-21",
-    email: "mailto:uzairahmed@74372gmail.com",
-    linkedin: "https://www.linkedin.com/in/uzzii21/",
+    facebook: "https://www.facebook.com/FabioCassisa",
+    twitter: "https://twitter.com/FabioCassisa",
+    github: "https://github.com/fabio-cassisa",
+    email: "mailto:cassisafabio97@gmail.com",
+    linkedin: "https://www.linkedin.com/in/fabiocassisa/",
   },
 
   projects: [
     {
-      title: "Astro Portfolio",
+      title: "DevWellness Hub",
       isFeatured: true,
-      thumbnail: "/assets/images/astro-portfolio.png",
-      githubUrl: "https://github.com/uzzii-21/astro-portfolio",
-      liveUrl: "https://astro-portfolio-uzair.vercel.app/",
+      thumbnail: "/assets/images/devWellness.png",
+      githubUrl: "https://github.com/fabio-cassisa/DevWellnessHub",
+      liveUrl: "https://devwellnesshub.netlify.app/",
+    },
+    {
+      title: "Weather App",
+      isFeatured: true,
+      thumbnail: "/assets/images/weatherApp.png",
+      githubUrl: "https://github.com/fabio-cassisa/project-weather-app",
+      liveUrl: "project-weather-app-sigma.vercel.app",
     },
   ],
 };
