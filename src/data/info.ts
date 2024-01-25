@@ -4,8 +4,8 @@ export const info = {
   jobDescription: "Design Technologist/Front-end Developer",
   about: `I am a designer/front-end developer based in Europe, you usually find me in Malmö, Copenaghen or Turin.
    In my whole life I have always been fascinated by design and technology. I started as a product designer graduating in Politecnico di Torino. I moved forward learning more into the field of HCI at KTH (during my exchange) and IxD at Malmö Uni. 
-   Finally gravitating towards front-end developing and creative coding, graduating in my last YH Bootcamp at Technigo, Stockholm. 
-   I want to get new experiences within Web Development, Product Design or UX Design. I know and have knowledge around design processes, agile methodologies, research methodologies.
+   Finally gravitating towards front-end developing and creative coding, graduating lastly in a YH UpSkill Course at Technigo, Stockholm. 
+   I want to get new experience within Web Development. I know and have knowledge around design processes, agile methodologies, research methodologies.
    Design tools I use daily: Figma, Adobe CC, Affinity Designer, Blender, Rhinoceros. 
    Tech stack I play around the most: HTML, CSS (Tailwind CSS, SASS), Javascript, React, GSAP.js, D3.js, Git Version Control. I am learning: Astro, Next.js, Typescript, Node.js. 
   `,
