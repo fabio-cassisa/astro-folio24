@@ -126,6 +126,13 @@ export const info = {
       liveUrl: "https://devwellnesshub.netlify.app/",
     },
     {
+      title: "LostSatellite - React, GSAP landing",
+      isFeatured: true,
+      thumbnail: "/assets/images/lostSatellite.png",
+      githubUrl: "https://github.com/fabio-cassisa/LostSatellites",
+      liveUrl: "https://lostsatellite.netlify.app/",
+    },
+    {
       title: "Weather App",
       isFeatured: true,
       thumbnail: "/assets/images/weatherApp.png",
