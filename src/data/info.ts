@@ -128,14 +128,14 @@ export const info = {
     {
       title: "LostSatellite V1 - React, GSAP landing",
       isFeatured: true,
-      thumbnail: "/assets/images/lostSatellite.png",
+      thumbnail: "/assets/images/lostSatellite_V1.png",
       githubUrl: "https://github.com/fabio-cassisa/LostSatellites",
       liveUrl: "https://lostsatellite-v1.netlify.app/",
     },
     {
       title: "LostSatellite V2 - React, GSAP landing",
       isFeatured: false,
-      thumbnail: "/assets/images/lostSatellite.png",
+      thumbnail: "/assets/images/lostSatellite_V2.png",
       githubUrl: "https://github.com/fabio-cassisa/LostSatellites",
       liveUrl: "https://lostsatellitestudio.com",
     },
