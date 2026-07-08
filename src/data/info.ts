@@ -234,7 +234,7 @@ export const info = {
       tech: ['astro', 'gsap', 'web audio api', 'spotify api'],
       github: '',
       live: 'https://studio-75.vercel.app',
-      thumbnail: '',
+      thumbnail: '/images/studio75.webp',
       tier: 1,
       featured: true,
       private: true,
