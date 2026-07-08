@@ -227,6 +227,18 @@ export const info = {
       featured: true,
       private: true,
     },
+    {
+      title: 'studio-75',
+      description:
+        'Music studio website — audio-reactive waveform, Spotify integration, scroll-driven GSAP animations. Built for a real client.',
+      tech: ['astro', 'gsap', 'web audio api', 'spotify api'],
+      github: '',
+      live: 'https://studio-75.vercel.app',
+      thumbnail: '',
+      tier: 1,
+      featured: true,
+      private: true,
+    },
     // tier 2 — supporting
     {
       title: '3d-product-viewer',
