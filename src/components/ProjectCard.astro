@@ -60,6 +60,15 @@ const linkUrl = project.live || project.github;
         )}
       </h3>
       <div class="flex items-center gap-2 shrink-0">
+        {'caseStudy' in project && project.caseStudy && (
+          <a
+            href={project.caseStudy}
+            class="text-[var(--color-accent)] hover:text-[var(--color-cyan)] transition-colors text-xs"
+            aria-label={`Case study for ${project.title}`}
+          >
+            case
+          </a>
+        )}
         {project.github && (
           <a
             href={project.github}

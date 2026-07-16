@@ -1,0 +1,169 @@
+---
+import Layout from '@layouts/Layout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+
+const findings = [
+  { sin: 'site title was literally "."', fix: 'real titles + meta on every page' },
+  { sin: 'no <h1> or <h2> anywhere', fix: 'semantic hierarchy throughout' },
+  { sin: 'lang="en-US" on a swedish site', fix: 'sv-SE default, english at /en/, hreflang wired' },
+  { sin: 'system fonts next to a blackletter logo', fix: 'anton + archivo, self-hosted (no google cdn)' },
+  { sin: 'logo trapped in a 960px png on white', fix: 'traced to a 4kb svg — red/white/black, scales infinitely' },
+  { sin: '7 artists = a list of underlined instagram links', fix: 'numbered crew grid, one card per artist' },
+  { sin: 'empty favicon.ico (0 bytes)', fix: 'on-brand diamond mark' },
+  { sin: 'fbclid tracking param baked into the booking link', fix: 'clean per-locale booking urls' },
+];
+
+const decisions = [
+  {
+    title: 'keep the brand, change the treatment',
+    body: 'same name, same logo, same copy. the red blackletter wordmark and b&w studio photography were always good — they were just sitting in a default wordpress theme. the redesign is an act of respect, not reinvention. the "·" diamond from the logo became the recurring typographic mark: kickers, dividers, marquee, footer.',
+  },
+  {
+    title: 'dark ink-editorial, luminance depth',
+    body: 'a tattoo studio site should feel like the work. warm near-black (#141110), single accent (their exact red, #e51f25, sampled from the logo), no shadows anywhere — surfaces step up in opacity instead. anton as the display voice, uppercase, one heavy weight.',
+  },
+  {
+    title: 'zero-js static, motion in css',
+    body: 'astro static output. staggered hero entrance, scroll reveals, seamless blackletter marquee — all css, except a 10-line intersection observer (js-gated, so no-js visitors still see everything). prefers-reduced-motion respected. the faq is a native details accordion.',
+  },
+];
+---
+
+<Layout
+  title="case: diamant-tattoo — dagas"
+  description="redesign case study — from default wordpress to a dark editorial, bilingual, zero-js site for a real tattoo studio in malmö."
+>
+  <section class="mb-16">
+    <SectionHeader label="case study" />
+    <p class="text-xs text-[var(--color-text-muted)] mb-8">
+      <span class="text-[var(--color-accent)]">$</span> cat ~/cases/diamant-tattoo.md
+    </p>
+
+    <h1 class="text-2xl md:text-3xl font-bold text-[var(--color-accent)] mb-3">diamant-tattoo</h1>
+    <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-2 max-w-2xl">
+      diamant is a real tattoo studio in central malmö — seven artists, strong instagram, a red
+      blackletter wordmark with actual character. their website: a default wordpress theme with
+      system fonts, no headings, and the artists reduced to a list of links.
+    </p>
+    <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-8 max-w-2xl">
+      so i redesigned it. unsolicited — audit first, then a full rebuild around the brand they
+      already had. same name, same logo, same content. built as a live pitch.
+    </p>
+
+    <div class="flex flex-wrap gap-1.5 mb-4">
+      {['astro', 'vanilla css', 'i18n', 'potrace', 'vercel'].map((t) => <span class="tag">{t}</span>)}
+    </div>
+    <p class="text-xs mb-12">
+      <a
+        href="https://diamant-tattoo.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-[var(--color-cyan)] hover:text-[var(--color-accent)] transition-colors"
+      >live → diamant-tattoo.vercel.app</a>
+    </p>
+
+    {/* the audit */}
+    <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">
+      // the audit
+    </h3>
+    <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 max-w-2xl">
+      first pass: playwright screenshots, dom inspection, asset inventory. the findings wrote the
+      pitch by themselves —
+    </p>
+    <div class="terminal-window p-4 mb-12 overflow-x-auto">
+      <table class="w-full text-xs">
+        <thead>
+          <tr class="text-left text-[var(--color-text-muted)] uppercase tracking-widest">
+            <th class="pb-2 pr-4 font-semibold">found</th>
+            <th class="pb-2 font-semibold">shipped</th>
+          </tr>
+        </thead>
+        <tbody>
+          {findings.map((f) => (
+            <tr class="border-t border-dashed border-[var(--color-border)] align-top">
+              <td class="py-2 pr-4 text-[var(--color-text-muted)]">
+                <span class="text-[var(--color-accent)] mr-1">✗</span>{f.sin}
+              </td>
+              <td class="py-2">
+                <span class="text-[var(--color-cyan)] mr-1">✓</span>{f.fix}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* brand liberation */}
+    <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">
+      // liberating the wordmark
+    </h3>
+    <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 max-w-2xl">
+      the logo only existed as a raster png on a white background — useless for a dark design.
+      traced with potrace into a 4kb svg, verified faithful to every spike of the letterforms.
+      before / after:
+    </p>
+    <div class="grid grid-cols-1 gap-4 mb-12 max-w-2xl">
+      <figure class="terminal-window p-3">
+        <img src="/images/case/diamant/brand-before.webp" alt="original wordmark — raster png on white" width="800" height="188" loading="lazy" class="w-full" />
+        <figcaption class="text-xs text-[var(--color-text-muted)] mt-2">before — 960px png, white background</figcaption>
+      </figure>
+      <figure class="terminal-window p-3">
+        <img src="/images/case/diamant/brand-after.webp" alt="vectorized wordmark — red svg on near-black" width="800" height="167" loading="lazy" class="w-full" />
+        <figcaption class="text-xs text-[var(--color-text-muted)] mt-2">after — 4kb svg, infinite scale, any color</figcaption>
+      </figure>
+    </div>
+
+    {/* decisions */}
+    <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">
+      // three decisions
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+      {decisions.map((d, i) => (
+        <div class="terminal-window p-4">
+          <p class="text-xs text-[var(--color-accent)] mb-2">0{i + 1}</p>
+          <h4 class="text-sm font-semibold mb-2">{d.title}</h4>
+          <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">{d.body}</p>
+        </div>
+      ))}
+    </div>
+
+    {/* before / after */}
+    <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">
+      // before / after
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <figure class="terminal-window p-3">
+        <img src="/images/case/diamant/before-home.webp" alt="original homepage — default wordpress theme" width="800" height="973" loading="lazy" class="w-full" />
+        <figcaption class="text-xs text-[var(--color-text-muted)] mt-2">before — homepage, default wordpress</figcaption>
+      </figure>
+      <figure class="terminal-window p-3">
+        <img src="/images/case/diamant/after-home.webp" alt="redesigned homepage — dark editorial" width="800" height="2040" loading="lazy" class="w-full" />
+        <figcaption class="text-xs text-[var(--color-text-muted)] mt-2">after — homepage, dark ink-editorial</figcaption>
+      </figure>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+      <figure class="terminal-window p-3">
+        <img src="/images/case/diamant/before-kontakt.webp" alt="original contact page — artists as a list of links" width="800" height="1416" loading="lazy" class="w-full" />
+        <figcaption class="text-xs text-[var(--color-text-muted)] mt-2">before — contact: 7 artists as underlined links</figcaption>
+      </figure>
+      <figure class="terminal-window p-3">
+        <img src="/images/case/diamant/after-faq.webp" alt="redesigned faq — native accordion" width="800" height="798" loading="lazy" class="w-full" />
+        <figcaption class="text-xs text-[var(--color-text-muted)] mt-2">after — faq: native details accordion, zero js</figcaption>
+      </figure>
+    </div>
+
+    {/* outcome */}
+    <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">
+      // outcome
+    </h3>
+    <ul class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-8 max-w-2xl space-y-2">
+      <li><span class="text-[var(--color-cyan)] mr-2">→</span>full site, 4 pages × 2 languages, live on vercel in two days</li>
+      <li><span class="text-[var(--color-cyan)] mr-2">→</span>zero client-side js except a 10-line intersection observer</li>
+      <li><span class="text-[var(--color-cyan)] mr-2">→</span>local seo rebuilt: real meta, semantic html, tattooparlor json-ld</li>
+      <li><span class="text-[var(--color-cyan)] mr-2">→</span>migration = one dns change; no wordpress export drama</li>
+    </ul>
+    <p class="text-xs text-[var(--color-text-muted)]">
+      <span class="text-[var(--color-accent)]">$</span> echo "your craft outgrew your website. let's fix that."
+    </p>
+  </section>
+</Layout>

@@ -250,6 +250,7 @@ export const info = {
       tier: 1,
       featured: true,
       private: true,
+      caseStudy: '/case/diamant-tattoo',
     },
     // tier 2 — supporting
     {
