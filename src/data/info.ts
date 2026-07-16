@@ -239,6 +239,18 @@ export const info = {
       featured: true,
       private: true,
     },
+    {
+      title: 'diamant-tattoo',
+      description:
+        'Full redesign of a real tattoo studio\'s website — audit, vectorized brand, dark editorial UI, bilingual SV/EN, CSS-only motion. Zero-JS static rebuild of a WordPress site.',
+      tech: ['astro', 'vanilla css', 'i18n', 'vercel'],
+      github: '',
+      live: 'https://diamant-tattoo.vercel.app',
+      thumbnail: '/images/diamantTattoo.webp',
+      tier: 1,
+      featured: true,
+      private: true,
+    },
     // tier 2 — supporting
     {
       title: '3d-product-viewer',
