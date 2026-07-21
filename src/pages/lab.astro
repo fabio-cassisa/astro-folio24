@@ -1,0 +1,89 @@
+---
+import Layout from '@layouts/Layout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import { info } from '@data/info';
+
+const DISCIPLINE_COLORS: Record<string, string> = {
+  web: 'var(--color-cyan)',
+  '3d': 'var(--color-purple)',
+  hardware: 'var(--color-amber)',
+  ml: 'var(--color-red)',
+  sound: 'var(--color-accent)',
+  ai: 'var(--color-accent)',
+  research: 'var(--color-text-muted)',
+};
+const { experiments } = info;
+// unique disciplines for the legend
+const disciplines = [...new Set(experiments.map((e) => e.discipline))];
+---
+
+<Layout
+  title="lab — dagas"
+  description="experiments in hardware, 3d, sound, and machine learning by fabio cassisa — the maker's workshop behind the client work."
+>
+  <section class="mb-16">
+    <SectionHeader label="lab" />
+    <p class="text-xs text-[var(--color-text-muted)] mb-6">
+      <span class="text-[var(--color-accent)]">$</span> ls ~/lab --experiments
+    </p>
+
+    <p class="text-sm text-[var(--color-text)] leading-relaxed mb-6 max-w-2xl">
+      The workshop behind the client work — where I explore hardware, 3D, sound, and
+      machine learning. Not products, not pitches. Just things I wanted to see exist.
+    </p>
+
+    {/* discipline legend */}
+    <div class="flex flex-wrap gap-3 mb-8">
+      {disciplines.map((d) => (
+        <span class="flex items-center gap-1.5 text-[0.7rem] uppercase tracking-widest" style={`color:${DISCIPLINE_COLORS[d] ?? 'var(--color-text-muted)'}`}>
+          <span class="inline-block w-2 h-2 rounded-full" style={`background:${DISCIPLINE_COLORS[d] ?? 'var(--color-text-muted)'}`}></span>
+          {d}
+        </span>
+      ))}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {experiments.map((e) => (
+        <article class="terminal-window lab-card">
+          <div class="terminal-body">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[0.65rem] uppercase tracking-widest" style={`color:${DISCIPLINE_COLORS[e.discipline] ?? 'var(--color-text-muted)'}`}>
+                {e.discipline}
+              </span>
+              <span class="text-[0.65rem] text-[var(--color-text-muted)]">{e.year}</span>
+            </div>
+            <h3 class="text-base font-semibold text-[var(--color-text-bright)] mb-2">{e.title}</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed mb-3">{e.blurb}</p>
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              {e.tech.map((t) => <span class="tag">{t}</span>)}
+            </div>
+            <div class="flex items-center gap-3">
+              {e.github && (
+                <a href={e.github} target="_blank" rel="noopener noreferrer"
+                   class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">src</a>
+              )}
+              {e.live && (
+                <a href={e.live} target="_blank" rel="noopener noreferrer"
+                   class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors">live</a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="text-xs text-[var(--color-text-muted)] mt-8">
+      <span class="text-[var(--color-accent)]">$</span> more in the drawer — always building.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .lab-card {
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .lab-card:hover {
+    border-color: var(--color-border-bright);
+    transform: translateY(-2px);
+  }
+</style>

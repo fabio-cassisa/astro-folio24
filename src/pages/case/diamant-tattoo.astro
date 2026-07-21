@@ -1,6 +1,14 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import SectionHeader from '@components/SectionHeader.astro';
+import ProcessFlow from '@components/ProcessFlow.astro';
+
+const phases = [
+  { label: 'Audit', caption: 'screenshots + DOM' },
+  { label: 'Direction', caption: 'keep brand, go dark' },
+  { label: 'Build', caption: 'astro · zero-js · i18n' },
+  { label: 'Ship', caption: 'live, one DNS away' },
+];
 
 const findings = [
   { sin: 'site title was literally "."', fix: 'real titles + meta on every page' },
@@ -61,6 +69,14 @@ const decisions = [
         class="text-[var(--color-cyan)] hover:text-[var(--color-accent)] transition-colors"
       >live → diamant-tattoo.vercel.app</a>
     </p>
+
+    {/* process */}
+    <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">
+      // process
+    </h3>
+    <div class="mb-12">
+      <ProcessFlow phases={phases} title="four phases, two days" />
+    </div>
 
     {/* the audit */}
     <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">

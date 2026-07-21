@@ -8,10 +8,10 @@ export const info = {
   baseUrl: 'https://dagas-portfolio.vercel.app',
 
   about: [
-    'designer, developer, and everything in between.',
-    'i like building things at the intersection of disciplines — code that feels designed, design that actually ships.',
-    'background in industrial design (politecnico di torino), interaction design (malmö university, kth exchange), then into front-end development and creative coding (technigo). today i build high-impact ad formats, creative tooling, and ai-powered pipelines at adnami.',
-    'polymath in progress — always learning, always shipping. design, code, creativity, and stem are all tools. what matters is what you make with them.',
+    'designer, developer, maker — a creative technologist who works between disciplines.',
+    'i build where code meets craft: websites and interfaces, but also physical-computing prototypes, 3d tools, generative visuals, sound toys, and ai agents. code that feels designed, design that actually ships.',
+    'background in industrial design (politecnico di torino), interaction design (malmö university, kth exchange), then front-end and creative coding (technigo). today i build high-impact ad formats, creative tooling, and ai-powered pipelines at adnami — and take on select studio & client work after hours.',
+    'polymath in progress — always learning, always shipping. design, code, hardware, and art are all just tools. what matters is what you make with them.',
   ],
 
   socialMedia: {
@@ -210,6 +210,7 @@ export const info = {
       description:
         'Chrome extension that scrapes ad creative assets from live web pages. Built for internal use at Adnami.',
       tech: ['js', 'chrome extension', 'manifest v3'],
+      discipline: 'tooling',
       github: 'https://github.com/fabio-cassisa/net-assets-scraper',
       live: '',
       thumbnail: '/images/netAssetsScraper.webp',
@@ -221,6 +222,7 @@ export const info = {
       description:
         'Developer wellness dashboard — focus timers, breathe exercises, habit tracking. 4 contributors, 200+ commits.',
       tech: ['react', 'redux toolkit', 'vite'],
+      discipline: 'web',
       github: 'https://github.com/fabio-cassisa/dev-wellness',
       live: 'https://dev-wellness.vercel.app',
       thumbnail: '/images/devWellness.webp',
@@ -232,6 +234,7 @@ export const info = {
       description:
         'Local-first AI agent workbench — knowledge base, vector search, compiled wiki, MCP tools. Personal second brain and dev sidekick.',
       tech: ['ts', 'lancedb', 'mcp', 'vector db'],
+      discipline: 'ai',
       github: '',
       live: '',
       thumbnail: '',
@@ -244,6 +247,7 @@ export const info = {
       description:
         'Landing page for Lost Satellites — a design studio and indie game company based in Rome. Scroll-driven GSAP animations.',
       tech: ['react', 'gsap', 'css'],
+      discipline: 'web',
       github: 'https://github.com/fabio-cassisa/lost-satellites',
       live: 'https://lostsatellite-v1.netlify.app',
       thumbnail: '/images/lostSatellite_V2.webp',
@@ -255,6 +259,7 @@ export const info = {
       description:
         'Minimal task manager with drag-to-reorder, priority levels, dark/light theme.',
       tech: ['react', 'redux toolkit', 'vite'],
+      discipline: 'web',
       github: 'https://github.com/fabio-cassisa/my-tasks',
       live: 'https://project-todo-list-beta.vercel.app',
       thumbnail: '/images/projectTodo.webp',
@@ -266,6 +271,7 @@ export const info = {
       description:
         'Tattoo booking platform for a real client — live production site with CMS, booking flow, and multi-language support.',
       tech: ['next.js', 'supabase', 'ts', 'tailwind'],
+      discipline: 'web',
       github: '',
       live: 'https://lia-tattoo.vercel.app/en',
       thumbnail: '/images/liaTattoo.webp',
@@ -278,6 +284,7 @@ export const info = {
       description:
         'Music studio website — audio-reactive waveform, Spotify integration, scroll-driven GSAP animations. Built for a real client.',
       tech: ['astro', 'gsap', 'web audio api', 'spotify api'],
+      discipline: 'web',
       github: '',
       live: 'https://studio-75.vercel.app',
       thumbnail: '/images/studio75.webp',
@@ -290,6 +297,7 @@ export const info = {
       description:
         'Full redesign of a real tattoo studio\'s website — audit, vectorized brand, dark editorial UI, bilingual SV/EN, CSS-only motion. Zero-JS static rebuild of a WordPress site.',
       tech: ['astro', 'vanilla css', 'i18n', 'vercel'],
+      discipline: 'web',
       github: '',
       live: 'https://diamant-tattoo.vercel.app',
       thumbnail: '/images/diamantTattoo.webp',
@@ -304,6 +312,7 @@ export const info = {
       description:
         'Scroll-driven 3D product showcase with camera animation.',
       tech: ['ts', 'webgi sdk', 'gsap', 'vite'],
+      discipline: '3d',
       github: 'https://github.com/fabio-cassisa/3d-product-viewer',
       live: '',
       thumbnail: '',
@@ -315,6 +324,7 @@ export const info = {
       description:
         'Hardware + software bridge — micro:bit sensor to web interface with vibration patterns and neopixel animations.',
       tech: ['js', 'micro:bit', 'web serial'],
+      discipline: 'hardware',
       github: 'https://github.com/fabio-cassisa/resonance',
       live: 'https://fabio-cassisa.github.io/resonance/',
       thumbnail: '',
@@ -326,6 +336,7 @@ export const info = {
       description:
         'SPA landing page for a food-tech startup I co-founded.',
       tech: ['js', 'html', 'css'],
+      discipline: 'web',
       github: 'https://github.com/fabio-cassisa/4foodies-landing',
       live: '',
       thumbnail: '',
@@ -336,6 +347,7 @@ export const info = {
       title: 'face-detection',
       description: 'Face detection experiment using ML APIs.',
       tech: ['js', 'ml api'],
+      discipline: 'ml',
       github: 'https://github.com/fabio-cassisa/face-detection',
       live: '',
       thumbnail: '',
@@ -346,6 +358,7 @@ export const info = {
       title: 'book-collection',
       description: 'Book library app with planned API upgrade.',
       tech: ['react', 'api'],
+      discipline: 'web',
       github: 'https://github.com/fabio-cassisa/book-collection',
       live: '',
       thumbnail: '',
@@ -353,8 +366,68 @@ export const info = {
       featured: false,
     },
   ],
+
+  // ── LAB ── experiments & eclectic work. The maker/artist/technologist range
+  // that the client funnel deliberately doesn't show. Curated, not exhaustive.
+  experiments: [
+    {
+      title: 'sculptr',
+      discipline: '3d',
+      blurb: 'Turn any SVG into an interactive 3D sculpture. Draw on a pixel canvas, type text, or paste SVG — it extrudes into a real-time 3D object with materials, lighting, animation, and export.',
+      tech: ['next.js', 'three.js', 'electron'],
+      github: 'https://github.com/fabio-cassisa/sculptr',
+      live: '',
+      year: '2025',
+    },
+    {
+      title: 'beat-builder',
+      discipline: 'sound',
+      blurb: 'A step sequencer and synth engine built from scratch on the Web Audio API — synthesized kick, snare, hats, bass, all drawn live into a reactive waveform. Lives inside the studio-75 site.',
+      tech: ['web audio api', 'canvas', 'astro'],
+      github: '',
+      live: 'https://studio-75.vercel.app/beat',
+      year: '2025',
+    },
+    {
+      title: 'resonance',
+      discipline: 'hardware',
+      blurb: 'Tactile communication between two wearable micro:bit devices — vibration patterns and neopixel animations synced over radio. Exploring touch as a channel when words are too much.',
+      tech: ['micro:bit', 'web serial', 'js'],
+      github: 'https://github.com/fabio-cassisa/resonance',
+      live: 'https://fabio-cassisa.github.io/resonance/',
+      year: '2024',
+    },
+    {
+      title: 'fio-dashboard',
+      discipline: 'hardware',
+      blurb: 'A design-fiction health dashboard — Arduino sensors streaming through Node serial and Socket.io into a live browser interface with GSAP-animated vitals. Made for an IxD studio at Malmö University.',
+      tech: ['arduino', 'node.js', 'socket.io', 'gsap'],
+      github: 'https://github.com/fabio-cassisa/FIO_dashboard-EI2021',
+      live: '',
+      year: '2021',
+    },
+    {
+      title: '3d-product-viewer',
+      discipline: '3d',
+      blurb: 'A scroll-driven 3D product showcase — camera choreography tied to scroll position, real-time materials and lighting via the WebGi SDK.',
+      tech: ['webgi sdk', 'three.js', 'gsap', 'ts'],
+      github: 'https://github.com/fabio-cassisa/3d-product-viewer',
+      live: '',
+      year: '2024',
+    },
+    {
+      title: 'face-detection',
+      discipline: 'ml',
+      blurb: 'Real-time face detection, landmark mapping, and emotion recognition running entirely in the browser on a webcam feed — no server, no upload.',
+      tech: ['face-api.js', 'webcam', 'js'],
+      github: 'https://github.com/fabio-cassisa/face-detection',
+      live: '',
+      year: '2024',
+    },
+  ],
 };
 
 export type Project = (typeof info.projects)[number];
+export type Experiment = (typeof info.experiments)[number];
 export type Experience = (typeof info.experience)[number];
 export type Education = (typeof info.education)[number];
