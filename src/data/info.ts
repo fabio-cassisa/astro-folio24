@@ -216,6 +216,7 @@ export const info = {
       thumbnail: '/images/netAssetsScraper.webp',
       tier: 1,
       featured: true,
+      caseStudy: '/case/net-assets-scraper',
     },
     {
       title: 'dev-wellness',
@@ -228,6 +229,7 @@ export const info = {
       thumbnail: '/images/devWellness.webp',
       tier: 1,
       featured: true,
+      caseStudy: '/case/dev-wellness',
     },
     {
       title: 'carlos-core',
@@ -253,6 +255,7 @@ export const info = {
       thumbnail: '/images/lostSatellite_V2.webp',
       tier: 1,
       featured: true,
+      caseStudy: '/case/lost-satellites',
     },
     {
       title: 'my-tasks',
@@ -278,6 +281,7 @@ export const info = {
       tier: 1,
       featured: true,
       private: true,
+      caseStudy: '/case/lia-tattoo',
     },
     {
       title: 'studio-75',
@@ -291,6 +295,7 @@ export const info = {
       tier: 1,
       featured: true,
       private: true,
+      caseStudy: '/case/studio-75',
     },
     {
       title: 'diamant-tattoo',
@@ -306,31 +311,7 @@ export const info = {
       private: true,
       caseStudy: '/case/diamant-tattoo',
     },
-    // tier 2 — supporting
-    {
-      title: '3d-product-viewer',
-      description:
-        'Scroll-driven 3D product showcase with camera animation.',
-      tech: ['ts', 'webgi sdk', 'gsap', 'vite'],
-      discipline: '3d',
-      github: 'https://github.com/fabio-cassisa/3d-product-viewer',
-      live: '',
-      thumbnail: '',
-      tier: 2,
-      featured: false,
-    },
-    {
-      title: 'resonance',
-      description:
-        'Hardware + software bridge — micro:bit sensor to web interface with vibration patterns and neopixel animations.',
-      tech: ['js', 'micro:bit', 'web serial'],
-      discipline: 'hardware',
-      github: 'https://github.com/fabio-cassisa/resonance',
-      live: 'https://fabio-cassisa.github.io/resonance/',
-      thumbnail: '',
-      tier: 2,
-      featured: false,
-    },
+    // tier 2 — supporting  (experiments live in /lab, not here — no double-listing)
     {
       title: '4foodies-landing',
       description:
@@ -338,17 +319,6 @@ export const info = {
       tech: ['js', 'html', 'css'],
       discipline: 'web',
       github: 'https://github.com/fabio-cassisa/4foodies-landing',
-      live: '',
-      thumbnail: '',
-      tier: 2,
-      featured: false,
-    },
-    {
-      title: 'face-detection',
-      description: 'Face detection experiment using ML APIs.',
-      tech: ['js', 'ml api'],
-      discipline: 'ml',
-      github: 'https://github.com/fabio-cassisa/face-detection',
       live: '',
       thumbnail: '',
       tier: 2,

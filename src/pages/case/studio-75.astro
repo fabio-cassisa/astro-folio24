@@ -1,0 +1,68 @@
+---
+import CaseLayout from '@components/CaseLayout.astro';
+import ProcessFlow from '@components/ProcessFlow.astro';
+
+const phases = [
+  { label: 'Brief', caption: 'feel like it sounds' },
+  { label: 'Design', caption: 'dark, audio-first' },
+  { label: 'Build', caption: 'astro · gsap · web audio' },
+  { label: 'Optimize', caption: 'smooth on any laptop' },
+];
+
+const built = [
+  { h: 'Audio-reactive waveform', b: 'A canvas oscilloscope driven by the Web Audio API — reacts to mic input or track previews, with a synthesized idle wave when nothing plays.' },
+  { h: 'Spotify at build time', b: 'Real track metadata and album art pulled via the Spotify client-credentials API during the build — no runtime keys, no client-side calls.' },
+  { h: 'Beat builder', b: 'A step sequencer and synth engine built from scratch — kick, snare, hats, bass, all synthesized live and drawn into the waveform.' },
+  { h: 'Scroll-driven motion', b: 'Lenis smooth-scroll synced to the GSAP ticker; word-by-word reveals, stat count-ups, and a cinematic loader scene.' },
+];
+---
+
+<CaseLayout
+  slug="studio-75"
+  title="studio-75"
+  description="case study — a music studio website with an audio-reactive waveform, spotify integration, and a from-scratch beat builder. built with astro, gsap, and the web audio api."
+  intro={[
+    'Studio 75 is a real music studio — mixing, mastering, production. The brief was one line: make it feel like the music sounds. Dark, textured, alive.',
+    'So the site is built around sound, not around a template. A waveform reacts to audio, tracks pull real Spotify data, and a full beat builder lives inside the page.',
+  ]}
+  tech={['astro', 'gsap', 'web audio api', 'spotify api', 'lenis']}
+  live="https://studio-75.vercel.app"
+  liveLabel="studio-75.vercel.app"
+>
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// process</h3>
+  <div class="mb-12">
+    <ProcessFlow phases={phases} title="brief to build" />
+  </div>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// what's in it</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+    {built.map((x) => (
+      <div class="terminal-window">
+        <div class="terminal-body">
+          <h4 class="text-sm font-semibold text-[var(--color-text-bright)] mb-2">{x.h}</h4>
+          <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">{x.b}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// making it fast</h3>
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 max-w-2xl">
+    Audio-reactive canvas plus smooth-scroll plus GSAP is exactly the mix that
+    makes older laptops wheeze. A dedicated performance pass fixed that without
+    changing a single pixel:
+  </p>
+  <ul class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-12 max-w-2xl space-y-2">
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>the waveform loop pauses when scrolled offscreen instead of rendering forever</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>canvas DPR capped for blur imagery — ~44% fewer pixels on retina, invisible loss</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>gradients built once per resize, not per frame; hover tilts reuse one tween</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span><code>prefers-reduced-motion</code> respected — a static frame for those who ask</li>
+  </ul>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// outcome</h3>
+  <ul class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-2xl space-y-2">
+    <li><span class="text-[var(--color-cyan)] mr-2">→</span>a site that sounds like the studio, live on Vercel</li>
+    <li><span class="text-[var(--color-cyan)] mr-2">→</span>zero runtime API keys — Spotify data baked at build</li>
+    <li><span class="text-[var(--color-cyan)] mr-2">→</span>smooth on low-end hardware after the optimization pass</li>
+  </ul>
+</CaseLayout>

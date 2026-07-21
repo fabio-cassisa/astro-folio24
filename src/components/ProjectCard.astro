@@ -8,7 +8,6 @@ interface Props {
 const { project } = Astro.props;
 const hasImage = project.thumbnail && project.thumbnail.length > 0;
 const isPrivate = 'private' in project && project.private;
-const linkUrl = project.live || project.github;
 
 const DISCIPLINE_COLORS: Record<string, string> = {
   web: 'var(--color-cyan)',
@@ -22,54 +21,59 @@ const DISCIPLINE_COLORS: Record<string, string> = {
 };
 const discipline = 'discipline' in project ? (project.discipline as string) : undefined;
 const disciplineColor = discipline ? (DISCIPLINE_COLORS[discipline] ?? 'var(--color-text-muted)') : undefined;
+
+// ── one coherent destination per card ──
+// internal case study wins; else the live site; else the repo. Every card
+// telegraphs which: "→" = stays on site (case study), "↗" = leaves the site.
+const caseUrl = 'caseStudy' in project ? (project.caseStudy as string) : undefined;
+const isInternal = !!caseUrl;
+const primaryHref = caseUrl || project.live || project.github || '';
+const hasPrimary = primaryHref.length > 0;
+const primaryLabel = isInternal ? 'case study' : project.live ? 'live' : 'code';
+const primaryArrow = isInternal ? '→' : '↗';
+
+// secondary links = the destinations that AREN'T the primary
+const secondary: { label: string; href: string }[] = [];
+if (isInternal) {
+  if (project.live) secondary.push({ label: 'live ↗', href: project.live });
+  if (project.github) secondary.push({ label: 'code ↗', href: project.github });
+} else if (project.live && project.github) {
+  secondary.push({ label: 'code ↗', href: project.github });
+}
 ---
 
-<article class="terminal-window group">
-  {/* thumbnail or no-signal placeholder */}
-  {linkUrl ? (
+<article class:list={['terminal-window group card-root', { 'is-link': hasPrimary }]}>
+  {/* whole-card stretched link → the ONE primary destination */}
+  {hasPrimary && (
     <a
-      href={linkUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="block overflow-hidden"
-    >
-      {hasImage ? (
-        <img
-          src={project.thumbnail}
-          alt={project.title}
-          width="800"
-          height="192"
-          class="w-full h-48 object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-      ) : (
-        <div class="no-signal h-48"></div>
-      )}
-    </a>
-  ) : (
-    <div class="block overflow-hidden">
-      {hasImage ? (
-        <img
-          src={project.thumbnail}
-          alt={project.title}
-          width="800"
-          height="192"
-          class="w-full h-48 object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-      ) : (
-        <div class="no-signal h-48"></div>
-      )}
-    </div>
+      class="card-cover"
+      href={primaryHref}
+      target={isInternal ? undefined : '_blank'}
+      rel={isInternal ? undefined : 'noopener noreferrer'}
+      aria-label={`${project.title} — ${primaryLabel}`}
+    ></a>
   )}
+
+  {/* thumbnail or no-signal placeholder */}
+  <div class="block overflow-hidden">
+    {hasImage ? (
+      <img
+        src={project.thumbnail}
+        alt={project.title}
+        width="800"
+        height="192"
+        class="w-full h-48 object-cover object-top transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+    ) : (
+      <div class="no-signal h-48"></div>
+    )}
+  </div>
 
   {/* card body */}
   <div class="p-4">
     {discipline && (
-      <span
-        class="block text-[0.65rem] uppercase tracking-widest mb-1.5"
-        style={`color:${disciplineColor}`}
-      >
+      <span class="block text-[0.65rem] uppercase tracking-widest mb-1.5" style={`color:${disciplineColor}`}>
         {discipline}
       </span>
     )}
@@ -80,47 +84,48 @@ const disciplineColor = discipline ? (DISCIPLINE_COLORS[discipline] ?? 'var(--co
           <span class="text-[var(--color-text-muted)] font-normal text-xs ml-1">[private]</span>
         )}
       </h3>
-      <div class="flex items-center gap-2 shrink-0">
-        {'caseStudy' in project && project.caseStudy && (
-          <a
-            href={project.caseStudy}
-            class="text-[var(--color-accent)] hover:text-[var(--color-cyan)] transition-colors text-xs"
-            aria-label={`Case study for ${project.title}`}
-          >
-            case
-          </a>
-        )}
-        {project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors text-xs"
-            aria-label={`GitHub repo for ${project.title}`}
-          >
-            src
-          </a>
-        )}
-        {project.live && (
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors text-xs"
-            aria-label={`Live demo for ${project.title}`}
-          >
-            live
-          </a>
-        )}
-      </div>
+      {hasPrimary && (
+        <span
+          class:list={[
+            'shrink-0 text-xs whitespace-nowrap',
+            isInternal ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-cyan)]',
+          ]}
+        >
+          {primaryLabel} {primaryArrow}
+        </span>
+      )}
     </div>
     <p class="text-xs text-[var(--color-text-muted)] mb-3 leading-relaxed">
       {project.description}
     </p>
     <div class="flex flex-wrap gap-1.5">
-      {project.tech.map((t) => (
-        <span class="tag">{t}</span>
-      ))}
+      {project.tech.map((t) => <span class="tag">{t}</span>)}
     </div>
+
+    {/* secondary destinations — above the card cover so they stay clickable */}
+    {secondary.length > 0 && (
+      <div class="card-actions flex items-center gap-3 mt-3">
+        {secondary.map((s) => (
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors"
+          >
+            {s.label}
+          </a>
+        ))}
+      </div>
+    )}
   </div>
 </article>
+
+<style>
+  .card-root { position: relative; }
+  .card-root.is-link { cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
+  .card-root.is-link:hover { border-color: var(--color-border-bright); transform: translateY(-2px); }
+  /* stretched link covers the whole card */
+  .card-cover { position: absolute; inset: 0; z-index: 1; }
+  /* secondary links ride above the cover so they capture their own clicks */
+  .card-actions { position: relative; z-index: 2; }
+</style>

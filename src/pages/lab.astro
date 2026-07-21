@@ -43,33 +43,43 @@ const disciplines = [...new Set(experiments.map((e) => e.discipline))];
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {experiments.map((e) => (
-        <article class="terminal-window lab-card">
-          <div class="terminal-body">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[0.65rem] uppercase tracking-widest" style={`color:${DISCIPLINE_COLORS[e.discipline] ?? 'var(--color-text-muted)'}`}>
-                {e.discipline}
-              </span>
-              <span class="text-[0.65rem] text-[var(--color-text-muted)]">{e.year}</span>
-            </div>
-            <h3 class="text-base font-semibold text-[var(--color-text-bright)] mb-2">{e.title}</h3>
-            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed mb-3">{e.blurb}</p>
-            <div class="flex flex-wrap gap-1.5 mb-3">
-              {e.tech.map((t) => <span class="tag">{t}</span>)}
-            </div>
-            <div class="flex items-center gap-3">
-              {e.github && (
-                <a href={e.github} target="_blank" rel="noopener noreferrer"
-                   class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">src</a>
+      {experiments.map((e) => {
+        const primary = e.live || e.github || '';
+        const primaryLabel = e.live ? 'live' : 'code';
+        const secondaryHref = e.live && e.github ? e.github : '';
+        return (
+          <article class:list={['terminal-window lab-card group', { 'is-link': !!primary }]}>
+            {primary && (
+              <a class="card-cover" href={primary} target="_blank" rel="noopener noreferrer"
+                 aria-label={`${e.title} — ${primaryLabel}`}></a>
+            )}
+            <div class="terminal-body">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[0.65rem] uppercase tracking-widest" style={`color:${DISCIPLINE_COLORS[e.discipline] ?? 'var(--color-text-muted)'}`}>
+                  {e.discipline}
+                </span>
+                <span class="text-[0.65rem] text-[var(--color-text-muted)]">{e.year}</span>
+              </div>
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h3 class="text-base font-semibold text-[var(--color-text-bright)]">{e.title}</h3>
+                {primary && (
+                  <span class="shrink-0 text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-cyan)] whitespace-nowrap">{primaryLabel} ↗</span>
+                )}
+              </div>
+              <p class="text-xs text-[var(--color-text-muted)] leading-relaxed mb-3">{e.blurb}</p>
+              <div class="flex flex-wrap gap-1.5">
+                {e.tech.map((t) => <span class="tag">{t}</span>)}
+              </div>
+              {secondaryHref && (
+                <div class="card-actions flex items-center gap-3 mt-3">
+                  <a href={secondaryHref} target="_blank" rel="noopener noreferrer"
+                     class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors">code ↗</a>
+                </div>
               )}
-              {e.live && (
-                <a href={e.live} target="_blank" rel="noopener noreferrer"
-                   class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors">live</a>
-              )}
             </div>
-          </div>
-        </article>
-      ))}
+          </article>
+        );
+      })}
     </div>
 
     <p class="text-xs text-[var(--color-text-muted)] mt-8">
@@ -79,11 +89,9 @@ const disciplines = [...new Set(experiments.map((e) => e.discipline))];
 </Layout>
 
 <style>
-  .lab-card {
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-  .lab-card:hover {
-    border-color: var(--color-border-bright);
-    transform: translateY(-2px);
-  }
+  .lab-card { position: relative; transition: border-color 0.2s ease, transform 0.2s ease; }
+  .lab-card.is-link { cursor: pointer; }
+  .lab-card.is-link:hover { border-color: var(--color-border-bright); transform: translateY(-2px); }
+  .card-cover { position: absolute; inset: 0; z-index: 1; }
+  .card-actions { position: relative; z-index: 2; }
 </style>

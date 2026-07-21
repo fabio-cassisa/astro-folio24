@@ -1,0 +1,43 @@
+---
+import CaseLayout from '@components/CaseLayout.astro';
+import ProcessFlow from '@components/ProcessFlow.astro';
+
+const phases = [
+  { label: 'Brief', caption: 'studio + game co.' },
+  { label: 'Design', caption: 'cinematic, dark' },
+  { label: 'Build', caption: 'react · gsap' },
+  { label: 'Ship', caption: 'live landing' },
+];
+---
+
+<CaseLayout
+  slug="lost-satellites"
+  title="lost-satellites"
+  description="case study — a cinematic landing page for lost satellites, a design studio and indie game company in rome. scroll-driven gsap animation."
+  intro={[
+    'Lost Satellites is a design studio and indie game company based in Rome. They needed a landing page that felt like their work — cinematic, a little otherworldly, in motion.',
+    'The build leans on scroll as the storytelling device: GSAP-driven reveals and parallax that unfold the studio\'s identity as you move down the page.',
+  ]}
+  tech={['react', 'gsap', 'css']}
+  github="https://github.com/fabio-cassisa/lost-satellites"
+  live="https://lostsatellite-v1.netlify.app"
+  liveLabel="lostsatellite-v1.netlify.app"
+>
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// process</h3>
+  <div class="mb-12">
+    <ProcessFlow phases={phases} title="brief to launch" />
+  </div>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// approach</h3>
+  <ul class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-12 max-w-2xl space-y-2">
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>scroll-driven GSAP timelines as the primary narrative</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>layered parallax for depth and atmosphere</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>dark, cinematic art direction matched to the brand</li>
+  </ul>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// outcome</h3>
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-2xl">
+    A live landing page that reads as a mood, not a template — the studio's first
+    impression online.
+  </p>
+</CaseLayout>

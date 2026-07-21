@@ -1,0 +1,43 @@
+---
+import CaseLayout from '@components/CaseLayout.astro';
+import ProcessFlow from '@components/ProcessFlow.astro';
+
+const phases = [
+  { label: 'Problem', caption: 'assets by hand' },
+  { label: 'Approach', caption: 'MV3 content script' },
+  { label: 'Extract', caption: 'logos · media · type' },
+  { label: 'Organize', caption: 'one clean kit' },
+];
+---
+
+<CaseLayout
+  slug="net-assets-scraper"
+  title="net-assets-scraper"
+  description="case study — a chrome extension that pulls every brand asset off a live web page into one organized kit. built for ad-creative work at adnami."
+  intro={[
+    'Building ad creatives starts with gathering the brand: logos, images, video, fonts, colours — usually hunted down by hand across a client\'s site. Slow, and easy to miss things.',
+    'This is the shortcut. A Chrome extension that scrapes a live page and hands back an organized brand kit in one pass. Built for internal use at Adnami.',
+  ]}
+  tech={['javascript', 'chrome extension', 'manifest v3']}
+  github="https://github.com/fabio-cassisa/net-assets-scraper"
+>
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// process</h3>
+  <div class="mb-12">
+    <ProcessFlow phases={phases} title="hunt to kit" />
+  </div>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// what it does</h3>
+  <ul class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-12 max-w-2xl space-y-2">
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>walks the live DOM and computed styles of any page</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>collects logos, images, video, fonts, and the colour palette</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>groups everything into a downloadable, organized brand kit</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>Manifest V3, no build step, runs entirely in the browser</li>
+  </ul>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// outcome</h3>
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-2xl">
+    A minutes-not-hours head start on every creative brief — and the seed of a
+    bigger idea: a free website-audit tool that turns the same extraction into a
+    lead magnet.
+  </p>
+</CaseLayout>

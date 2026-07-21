@@ -1,0 +1,43 @@
+---
+import CaseLayout from '@components/CaseLayout.astro';
+import ProcessFlow from '@components/ProcessFlow.astro';
+
+const phases = [
+  { label: 'Brief', caption: 'artist needs bookings' },
+  { label: 'Design', caption: 'mobile-first, warm' },
+  { label: 'Build', caption: 'next · supabase' },
+  { label: 'Launch', caption: 'live production' },
+];
+---
+
+<CaseLayout
+  slug="lia-tattoo"
+  title="lia-tattoo"
+  description="case study — a live booking platform for a real tattoo artist: booking flow, cms, multi-language, and an admin dashboard. next.js and supabase."
+  intro={[
+    'A booking platform for a working tattoo artist — not a brochure site, but the tool the studio actually runs on. Client requests, admin approval, and the artist\'s calendar, in one place.',
+    'Live in production, mobile-first (most bookings happen on a phone), and bilingual so international clients can book without friction.',
+  ]}
+  tech={['next.js', 'supabase', 'typescript', 'tailwind']}
+  live="https://lia-tattoo.vercel.app/en"
+  liveLabel="lia-tattoo.vercel.app"
+>
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// process</h3>
+  <div class="mb-12">
+    <ProcessFlow phases={phases} title="brief to production" />
+  </div>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// what it does</h3>
+  <ul class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-12 max-w-2xl space-y-2">
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>booking request flow built for mobile first</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>admin dashboard to review, approve, and manage requests</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>content managed through Supabase — the artist updates it herself</li>
+    <li><span class="text-[var(--color-accent)] mr-2">→</span>multi-language so international clients book without friction</li>
+  </ul>
+
+  <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// outcome</h3>
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-2xl">
+    A real production tool a real business depends on — the booking channel, the
+    admin workflow, and the public face of the studio, shipped and live.
+  </p>
+</CaseLayout>
