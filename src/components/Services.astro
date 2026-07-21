@@ -1,0 +1,101 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { info } from '@data/info';
+
+const { services, contact } = info;
+---
+
+<section class="mb-16" id="services">
+  <SectionHeader label="services" />
+  <p class="text-xs text-[var(--color-text-muted)] mb-6">
+    <span class="text-[var(--color-accent)]">$</span> ./work-with-me --available
+  </p>
+
+  <p class="text-sm text-[var(--color-text)] leading-relaxed mb-8 max-w-2xl">
+    {services.intro}
+  </p>
+
+  {/* service tiers */}
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    {services.tiers.map((t) => (
+      <div class="terminal-window svc-card">
+        <div class="terminal-body">
+          <div class="flex items-baseline justify-between mb-3">
+            <span class={`text-xs font-semibold tracking-widest ${t.accent ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]'}`}>
+              {t.num}
+            </span>
+            {t.tag && <span class="tag" style={t.accent ? 'border-color:var(--color-accent);color:var(--color-accent);' : ''}>{t.tag}</span>}
+          </div>
+          <h3 class="text-base font-semibold text-[var(--color-text-bright)] mb-1">{t.title}</h3>
+          <p class="text-[0.7rem] text-[var(--color-cyan)] mb-3 leading-snug">{t.who}</p>
+          <p class="text-xs text-[var(--color-text-muted)] leading-relaxed mb-4">{t.body}</p>
+          <ul class="flex flex-col gap-1.5">
+            {t.includes.map((inc) => (
+              <li class="text-xs text-[var(--color-text)] flex items-start gap-2">
+                <span class="text-[var(--color-accent)] shrink-0">+</span>{inc}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* free-audit hook */}
+  <div class="terminal-window mb-8">
+    <div class="terminal-titlebar">
+      <span class="terminal-dot terminal-dot--red"></span>
+      <span class="terminal-dot terminal-dot--amber"></span>
+      <span class="terminal-dot terminal-dot--green"></span>
+      <span style="margin-left:6px;">free-audit.sh</span>
+    </div>
+    <div class="terminal-body">
+      <p class="text-sm text-[var(--color-text)] leading-relaxed max-w-2xl">
+        <span class="text-[var(--color-accent)]">→ </span>{services.hook}
+      </p>
+    </div>
+  </div>
+
+  {/* CTA */}
+  <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+    <a
+      href={contact.bookingUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="cta-primary"
+    >
+      {contact.bookingLabel} →
+    </a>
+    <a
+      href={`mailto:${contact.email}`}
+      class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+    >
+      or email {contact.email}
+    </a>
+    <span class="text-xs text-[var(--color-text-muted)] sm:ml-auto">{contact.location}</span>
+  </div>
+</section>
+
+<style>
+  .svc-card {
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .svc-card:hover {
+    border-color: var(--color-border-bright);
+    transform: translateY(-2px);
+  }
+  .cta-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border-radius: 6px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .cta-primary:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+</style>

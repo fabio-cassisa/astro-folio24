@@ -3,6 +3,7 @@ import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
 import Neofetch from '@components/Neofetch.astro';
 import ProjectCard from '@components/ProjectCard.astro';
+import Services from '@components/Services.astro';
 import ExperienceItem from '@components/ExperienceItem.astro';
 import EducationItem from '@components/EducationItem.astro';
 import SectionHeader from '@components/SectionHeader.astro';
@@ -32,6 +33,11 @@ const featuredProjects = info.projects.filter((p) => p.featured);
       </a>
     </div>
   </section>
+
+  <hr class="divider" />
+
+  {/* services */}
+  <Services />
 
   <hr class="divider" />
 

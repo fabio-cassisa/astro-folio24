@@ -21,6 +21,52 @@ export const info = {
     mastodon: 'https://mastodon.social/@Dagas',
   },
 
+  // ── CONTACT ── freelance funnel endpoints. FABIO: set the real values before deploy.
+  contact: {
+    bookingUrl: 'https://cal.com/fabiocassisa/intro',  // TODO: real cal.com/Calendly intro-call link
+    bookingLabel: 'Book an intro call',
+    email: 'hello@fabiocassisa.com',                   // TODO: public freelance address (not the adnami one)
+    location: 'Malmö, SE — working remote',
+  },
+
+  // ── SERVICES ── the freelance offer. Positioning: brand respect for people
+  // whose craft outgrew their web presence. Pricing is per-project, quoted after
+  // a free audit — no fixed SEK numbers here on purpose (Fabio's call to add).
+  services: {
+    intro: 'Websites for studios, artists & makers. I audit what you have, keep your brand, and rebuild it into something fast, distinctive, and yours.',
+    tiers: [
+      {
+        num: '01',
+        accent: true,
+        title: 'One-Pager',
+        who: 'Artists · freelancers · launches · events',
+        body: 'A single, strong page that does one job well. Custom design, motion, responsive, deployed and live.',
+        includes: ['bespoke one-page design', 'scroll motion', 'domain + deploy', 'basic SEO'],
+        tag: 'from a weekend',
+      },
+      {
+        num: '02',
+        accent: false,
+        title: 'Full Site',
+        who: 'Studios · small businesses · practices',
+        body: 'A multi-page site built around your brand. Fast, static, editable, and found on Google. Bilingual if you need it.',
+        includes: ['multi-page custom build', 'bilingual / i18n', 'SEO + structured data', 'CMS-light content'],
+        tag: 'most popular',
+      },
+      {
+        num: '03',
+        accent: false,
+        title: 'Site + Booking',
+        who: 'Anyone taking bookings or selling',
+        body: 'Everything in Full Site, plus the machinery: booking flows, client dashboards, payments, integrations.',
+        includes: ['booking / commerce flow', 'client dashboard', 'payments + email', 'admin tooling'],
+        tag: 'live client work',
+      },
+    ],
+    // The entry point that de-risks the whole thing — ties to the redesign playbook.
+    hook: 'Not sure where to start? I\'ll audit your current site for free — design, speed, SEO, brand — and show you exactly what a rebuild would change. No pitch, just the findings.',
+  },
+
   stack: {
     languages: ['js', 'ts', 'html', 'css', 'python'],
     frameworks: ['react', 'astro', 'node.js', 'next.js', 'svelte'],
