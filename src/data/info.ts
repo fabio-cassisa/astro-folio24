@@ -21,11 +21,11 @@ export const info = {
     mastodon: 'https://mastodon.social/@Dagas',
   },
 
-  // ── CONTACT ── freelance funnel endpoints. FABIO: set the real values before deploy.
+  // ── CONTACT ── freelance funnel endpoints.
   contact: {
-    bookingUrl: 'https://cal.com/fabiocassisa/intro',  // TODO: real cal.com/Calendly intro-call link
+    bookingUrl: 'https://cal.com/fabio-cassisa/intro-call',
     bookingLabel: 'Book an intro call',
-    email: 'hello@fabiocassisa.com',                   // TODO: public freelance address (not the adnami one)
+    email: 'cassisafabio97@gmail.com',
     location: 'Malmö, SE — working remote',
   },
 
