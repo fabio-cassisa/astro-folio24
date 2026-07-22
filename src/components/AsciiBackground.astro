@@ -1,0 +1,181 @@
+---
+/**
+ * Animated ASCII wireframe background — side gutters only.
+ * A slow-rotating 3D solid rendered as ASCII, cycling through geometric
+ * shapes. Green, low-opacity, masked off the reading column, disabled on
+ * narrow screens, paused when the tab is hidden, static under reduced-motion.
+ */
+---
+
+<div id="ascii-bg" aria-hidden="true">
+  <pre class="ascii-pane ascii-left"></pre>
+  <pre class="ascii-pane ascii-right"></pre>
+</div>
+
+<style>
+  #ascii-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;             /* above body bg; content is lifted above this */
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ascii-pane {
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    margin: 0;
+    width: calc((100% - 860px) / 2);   /* the gutter beside the 768px column */
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 0;
+    color: var(--color-accent);
+    opacity: 0.17;
+    white-space: pre;
+    overflow: hidden;
+    user-select: none;
+  }
+  .ascii-left {
+    left: 0;
+    text-align: right;
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 45%);
+    mask-image: linear-gradient(to left, transparent, #000 45%);
+  }
+  .ascii-right {
+    right: 0;
+    text-align: left;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+    mask-image: linear-gradient(to right, transparent, #000 45%);
+  }
+  /* no gutters worth using below this — and saves battery on laptops/phones */
+  @media (max-width: 1180px) {
+    #ascii-bg { display: none; }
+  }
+</style>
+
+<script>
+  const CHARS = '.:-=+*#%@';
+  const PHI = 1.61803;
+
+  // shapes defined by vertices only; edges derived by nearest-neighbour distance
+  const SHAPE_VERTS = [
+    // tetrahedron
+    [[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]],
+    // cube
+    [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]],
+    // octahedron
+    [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]],
+    // icosahedron
+    [[0, 1, PHI], [0, 1, -PHI], [0, -1, PHI], [0, -1, -PHI], [1, PHI, 0], [1, -PHI, 0],
+     [-1, PHI, 0], [-1, -PHI, 0], [PHI, 0, 1], [PHI, 0, -1], [-PHI, 0, 1], [-PHI, 0, -1]],
+  ];
+
+  const d3 = (a: number[], b: number[]) =>
+    Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+  function prep(verts: number[][]) {
+    let maxr = 0;
+    for (const v of verts) maxr = Math.max(maxr, Math.hypot(v[0], v[1], v[2]));
+    const V = verts.map((v) => [v[0] / maxr, v[1] / maxr, v[2] / maxr]);
+    let min = Infinity;
+    for (let i = 0; i < V.length; i++)
+      for (let j = i + 1; j < V.length; j++) min = Math.min(min, d3(V[i], V[j]));
+    const edges: number[][] = [];
+    for (let i = 0; i < V.length; i++)
+      for (let j = i + 1; j < V.length; j++)
+        if (d3(V[i], V[j]) <= min * 1.12) edges.push([i, j]);
+    return { V, edges };
+  }
+  const SHAPES = SHAPE_VERTS.map(prep);
+
+  function drawLine(g: string[][], x0: number, y0: number, x1: number, y1: number, ch: string, cols: number, rows: number) {
+    const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0);
+    const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+    let err = dx - dy, guard = 0;
+    while (guard++ < 800) {
+      if (x0 >= 0 && x0 < cols && y0 >= 0 && y0 < rows) g[y0][x0] = ch;
+      if (x0 === x1 && y0 === y1) break;
+      const e2 = 2 * err;
+      if (e2 > -dy) { err -= dy; x0 += sx; }
+      if (e2 < dx) { err += dx; y0 += sy; }
+    }
+  }
+
+  function renderShape(pre: HTMLElement, shapeIdx: number, ax: number, ay: number) {
+    const cw = 8.4, lh = 14;
+    const cols = Math.max(8, Math.floor(pre.clientWidth / cw));
+    const rows = Math.max(8, Math.floor(pre.clientHeight / lh));
+    const g: string[][] = Array.from({ length: rows }, () => new Array(cols).fill(' '));
+    const { V, edges } = SHAPES[shapeIdx];
+    const cosx = Math.cos(ax), sinx = Math.sin(ax), cosy = Math.cos(ay), siny = Math.sin(ay);
+    const cx = cols / 2, cy = rows / 2;
+    const scaleY = Math.min(rows, cols / 1.67) * 0.4;
+    const scaleX = scaleY * 1.67;
+
+    const proj = V.map((v) => {
+      const y1 = v[1] * cosx - v[2] * sinx;
+      const z1 = v[1] * sinx + v[2] * cosx;
+      const x2 = v[0] * cosy + z1 * siny;
+      const z2 = -v[0] * siny + z1 * cosy;
+      const persp = 3 / (3 - z2);
+      return { sx: cx + x2 * scaleX * persp, sy: cy - y1 * scaleY * persp, z: z2 };
+    });
+
+    for (const [i, j] of edges) {
+      const a = proj[i], b = proj[j];
+      const zc = (a.z + b.z) / 2;
+      const ci = Math.max(0, Math.min(CHARS.length - 1, Math.round(((zc + 1) / 2) * (CHARS.length - 1))));
+      drawLine(g, Math.round(a.sx), Math.round(a.sy), Math.round(b.sx), Math.round(b.sy), CHARS[ci], cols, rows);
+    }
+    pre.textContent = g.map((r) => r.join('')).join('\n');
+  }
+
+  let raf = 0;
+  function init() {
+    cancelAnimationFrame(raf);
+    const bg = document.getElementById('ascii-bg');
+    if (!bg) return;
+    const left = bg.querySelector('.ascii-left') as HTMLElement | null;
+    const right = bg.querySelector('.ascii-right') as HTMLElement | null;
+    if (!left || !right) return;
+
+    const small = window.matchMedia('(max-width: 1180px)');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // two panes, different starting shapes, opposite spin
+    let li = 0, ri = 2;
+    let ax = 0.4, ay = 0.2;
+
+    if (reduce.matches) {
+      renderShape(left, li, 0.5, 0.6);
+      renderShape(right, ri, 0.5, -0.6);
+      return;
+    }
+
+    let last = 0, shapeClock = 0;
+    const STEP = 55;          // ~18fps
+    const CYCLE = 14000;      // ms per shape
+
+    function loop(t: number) {
+      raf = requestAnimationFrame(loop);
+      if (document.hidden || small.matches) return;
+      if (t - last < STEP) return;
+      const dt = last ? t - last : STEP;
+      last = t;
+
+      ax += 0.006; ay += 0.010;
+      shapeClock += dt;
+      if (shapeClock >= CYCLE) {
+        shapeClock = 0;
+        li = (li + 1) % SHAPES.length;
+        ri = (ri + 1) % SHAPES.length;
+      }
+      renderShape(left!, li, ax, ay);
+      renderShape(right!, ri, ax, -ay);
+    }
+    raf = requestAnimationFrame(loop);
+  }
+
+  document.addEventListener('astro:page-load', init);
+</script>

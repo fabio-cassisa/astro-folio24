@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
 import Terminal from '@components/Terminal.astro';
+import AsciiBackground from '@components/AsciiBackground.astro';
 
 interface Props {
   title?: string;
@@ -54,7 +55,8 @@ const {
     <ClientRouter />
   </head>
   <body class="scanlines">
-    <div class="mx-auto max-w-3xl px-6 py-8 md:py-16 pb-20">
+    <AsciiBackground />
+    <div class="relative z-10 mx-auto max-w-3xl px-6 py-8 md:py-16 pb-20">
       <Navbar />
       <main>
         <slot />
