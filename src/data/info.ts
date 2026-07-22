@@ -221,7 +221,7 @@ export const info = {
     {
       title: 'dev-wellness',
       description:
-        'Developer wellness dashboard — focus timers, breathe exercises, habit tracking. 4 contributors, 200+ commits.',
+        'Developer wellness dashboard — focus timers, breathe exercises, habit tracking. A school final project built with a coursemate, then carried forward and polished solo.',
       tech: ['react', 'redux toolkit', 'vite'],
       discipline: 'web',
       github: 'https://github.com/fabio-cassisa/dev-wellness',

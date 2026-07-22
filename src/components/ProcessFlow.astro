@@ -14,11 +14,13 @@ interface Props {
 }
 const { phases, title } = Astro.props;
 
-const VB_W = 960;
-const VB_H = 150;
-const x0 = 130;          // generous side margin so edge captions don't clip the viewBox
-const x1 = VB_W - 130;
-const spineY = 66;
+// narrower viewBox = the whole diagram scales down less against the ~768px
+// content column, so the SVG text renders larger. Captions stay short to fit.
+const VB_W = 860;
+const VB_H = 176;
+const x0 = 120;          // side margin so edge captions don't clip the viewBox
+const x1 = VB_W - 120;
+const spineY = 74;
 const n = phases.length;
 const step = n > 1 ? (x1 - x0) / (n - 1) : 0;
 const xs = phases.map((_, i) => x0 + i * step);
@@ -37,11 +39,11 @@ const xs = phases.map((_, i) => x0 + i * step);
         {i < n - 1 && (
           <text x={xs[i] + step / 2} y={spineY + 4} text-anchor="middle" class="pflow-arrow">&gt;</text>
         )}
-        <text x={xs[i]} y={spineY - 26} text-anchor="middle" class="pflow-num">0{i + 1}</text>
-        <circle cx={xs[i]} cy={spineY} r="7" fill="var(--color-bg)" stroke="var(--color-accent)" stroke-width="1.5" />
-        <circle cx={xs[i]} cy={spineY} r="2.5" fill="var(--color-accent)" />
-        <text x={xs[i]} y={spineY + 34} text-anchor="middle" class="pflow-label">{p.label}</text>
-        <text x={xs[i]} y={spineY + 54} text-anchor="middle" class="pflow-caption">{p.caption}</text>
+        <text x={xs[i]} y={spineY - 32} text-anchor="middle" class="pflow-num">0{i + 1}</text>
+        <circle cx={xs[i]} cy={spineY} r="8" fill="var(--color-bg)" stroke="var(--color-accent)" stroke-width="1.75" />
+        <circle cx={xs[i]} cy={spineY} r="3" fill="var(--color-accent)" />
+        <text x={xs[i]} y={spineY + 42} text-anchor="middle" class="pflow-label">{p.label}</text>
+        <text x={xs[i]} y={spineY + 64} text-anchor="middle" class="pflow-caption">{p.caption}</text>
       </g>
     ))}
   </svg>
@@ -65,18 +67,18 @@ const xs = phases.map((_, i) => x0 + i * step);
   .pflow svg { width: 100%; height: auto; display: block; }
   .pflow-num {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; fill: var(--color-accent); letter-spacing: 0.1em;
+    font-size: 17px; fill: var(--color-accent); letter-spacing: 0.08em;
   }
   .pflow-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 17px; font-weight: 600; fill: var(--color-text-bright);
+    font-size: 26px; font-weight: 600; fill: var(--color-text-bright);
   }
   .pflow-caption {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; fill: var(--color-text-muted);
+    font-size: 15px; fill: var(--color-text-muted);
   }
   .pflow-arrow {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 15px; fill: var(--color-border-bright);
+    font-size: 20px; fill: var(--color-border-bright);
   }
 </style>

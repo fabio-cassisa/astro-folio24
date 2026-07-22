@@ -3,10 +3,10 @@ import CaseLayout from '@components/CaseLayout.astro';
 import ProcessFlow from '@components/ProcessFlow.astro';
 
 const phases = [
-  { label: 'Team', caption: '4 contributors' },
-  { label: 'Plan', caption: 'shared state model' },
+  { label: 'Course', caption: 'final project, paired' },
   { label: 'Build', caption: 'react · redux toolkit' },
-  { label: 'Ship', caption: 'live dashboard' },
+  { label: 'Solo', caption: 'carried it forward' },
+  { label: 'Polish', caption: 'refresh + refine' },
 ];
 ---
 
@@ -15,8 +15,8 @@ const phases = [
   title="dev-wellness"
   description="case study — a developer wellness dashboard built as a 4-person collaboration: focus timers, breathing exercises, habit and mood tracking."
   intro={[
-    'A wellness dashboard for developers — focus timers, breathing exercises, habit tracking, mood logging, weekly stats. Built as a collaborative project: 4 contributors, 200+ commits.',
-    'The interesting part was less any single feature and more keeping a shared codebase coherent across a team — a predictable state model and clean component boundaries so four people could build in parallel.',
+    'A wellness dashboard for developers — focus timers, breathing exercises, habit tracking, mood logging, weekly stats. It started as a final project on a coding course, built together with a coursemate.',
+    'After the course I kept going on my own — the majority of the work is mine, and I\'ve since refreshed and refined it well past where it started. A real lesson in both collaborating on a shared codebase and then owning one end to end.',
   ]}
   tech={['react', 'redux toolkit', 'vite']}
   github="https://github.com/fabio-cassisa/dev-wellness"
@@ -25,7 +25,7 @@ const phases = [
 >
   <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// process</h3>
   <div class="mb-12">
-    <ProcessFlow phases={phases} title="four hands, one codebase" />
+    <ProcessFlow phases={phases} title="paired, then solo" />
   </div>
 
   <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// what's in it</h3>
@@ -38,8 +38,8 @@ const phases = [
 
   <h3 class="text-xs font-semibold text-[var(--color-cyan)] uppercase tracking-widest mb-4">// outcome</h3>
   <p class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-2xl">
-    A shipped, live product and a genuine lesson in collaborative front-end work —
-    branching discipline, review, and a state architecture that let four people
-    move without stepping on each other.
+    A shipped, live product that outgrew the course it started in — first a lesson
+    in collaborating on a shared codebase, then in taking sole ownership and
+    keeping something alive and improving long after the deadline.
   </p>
 </CaseLayout>
