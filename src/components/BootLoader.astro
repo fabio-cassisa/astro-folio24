@@ -1,0 +1,142 @@
+---
+/**
+ * First-visit hacker boot sequence. Shows once per session (sessionStorage
+ * gate), skippable, and skipped entirely for returning visitors and under
+ * prefers-reduced-motion. Pure DOM text — no canvas, no heavy work.
+ */
+---
+
+<div id="boot-loader" aria-hidden="true">
+  <div class="boot-box">
+    <pre class="boot-mark">    /\
+   /  \
+  &lt;    &gt;
+   \  /
+    \/</pre>
+    <div id="boot-log" class="boot-log"></div>
+    <div class="boot-bar"><div id="boot-bar-fill"></div></div>
+  </div>
+  <div class="boot-skip">click / any key to skip</div>
+</div>
+
+<style>
+  #boot-loader {
+    display: none;              /* shown by the inline gate on first visit only */
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: var(--color-bg);
+    color: var(--color-accent);
+    font-family: 'JetBrains Mono', monospace;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  html.booting { overflow: hidden; }
+  .boot-box { width: min(420px, 82vw); }
+  .boot-mark {
+    margin: 0 0 20px;
+    font-size: 13px;
+    line-height: 1.05;
+    color: var(--color-accent);
+    text-align: center;
+    white-space: pre;
+    opacity: 0.9;
+  }
+  .boot-log {
+    font-size: 12.5px;
+    line-height: 1.7;
+    min-height: 9.5em;
+    white-space: pre-wrap;
+  }
+  .boot-log :global(.bl) { display: block; }
+  .boot-log :global(.ok) { color: var(--color-text-muted); }
+  .boot-log :global(.ok b) { color: var(--color-accent); font-weight: 400; }
+  .boot-log :global(.ready) { color: var(--color-cyan); }
+  .boot-bar {
+    margin-top: 16px;
+    height: 2px;
+    width: 100%;
+    background: var(--color-border);
+    overflow: hidden;
+  }
+  #boot-bar-fill {
+    height: 100%;
+    width: 0;
+    background: var(--color-accent);
+    transition: width 0.2s linear;
+  }
+  .boot-skip {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    opacity: 0.5;
+  }
+  #boot-loader.boot-out {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const loader = document.getElementById('boot-loader');
+    if (!loader) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // returning visitor (this session) or reduced motion → no boot, no flash
+    if (sessionStorage.getItem('booted') === '1' || reduce) {
+      loader.remove();
+      return;
+    }
+    sessionStorage.setItem('booted', '1');
+
+    document.documentElement.classList.add('booting');
+    loader.style.display = 'flex';
+
+    const log = document.getElementById('boot-log');
+    const bar = document.getElementById('boot-bar-fill');
+    const LINES = [
+      '<span class="bl ok">dagas-os v2.0 — cold boot</span>',
+      '<span class="bl ok">[ <b>ok</b> ] mount /portfolio</span>',
+      '<span class="bl ok">[ <b>ok</b> ] load creative-engine</span>',
+      '<span class="bl ok">[ <b>ok</b> ] spin up carlos-core</span>',
+      '<span class="bl ok">[ <b>ok</b> ] compile ascii shaders</span>',
+      '<span class="bl ok">[ <b>ok</b> ] hydrate interface</span>',
+      '<span class="bl ready">&gt; ready.</span>',
+    ];
+
+    let done = false;
+    function finish() {
+      if (done) return;
+      done = true;
+      loader.classList.add('boot-out');
+      setTimeout(() => {
+        loader.remove();
+        document.documentElement.classList.remove('booting');
+      }, 460);
+    }
+
+    // skip on any interaction
+    const skip = () => finish();
+    loader.addEventListener('click', skip);
+    window.addEventListener('keydown', skip, { once: true });
+
+    let i = 0;
+    function step() {
+      if (done) return;
+      if (i < LINES.length) {
+        log.insertAdjacentHTML('beforeend', LINES[i]);
+        bar.style.width = Math.round(((i + 1) / LINES.length) * 100) + '%';
+        i++;
+        setTimeout(step, i === LINES.length ? 240 : 95 + Math.random() * 90);
+      } else {
+        setTimeout(finish, 260);
+      }
+    }
+    // small delay so the mark is seen before logs stream
+    setTimeout(step, 220);
+  })();
+</script>

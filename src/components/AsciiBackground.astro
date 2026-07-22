@@ -31,7 +31,7 @@
     line-height: 14px;
     letter-spacing: 0;
     color: var(--color-accent);
-    opacity: 0.17;
+    opacity: 0.22;
     white-space: pre;
     overflow: hidden;
     user-select: none;
@@ -131,7 +131,9 @@
     pre.textContent = g.map((r) => r.join('')).join('\n');
   }
 
+  const SPEEDS: Record<string, number> = { slow: 0.55, normal: 1, fast: 1.9 };
   let raf = 0;
+
   function init() {
     cancelAnimationFrame(raf);
     const bg = document.getElementById('ascii-bg');
@@ -143,38 +145,73 @@
     const small = window.matchMedia('(max-width: 1180px)');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // two panes, different starting shapes, opposite spin
-    let li = 0, ri = 2;
-    let ax = 0.4, ay = 0.2;
+    // persisted prefs so `ascii off` / speed survive navigation
+    const enabled = sessionStorage.getItem('ascii-off') !== '1';
+    const speedName = sessionStorage.getItem('ascii-speed') || 'normal';
+
+    const st = {
+      li: 0, ri: 2, ax: 0.4, ay: 0.2,
+      speed: SPEEDS[speedName] ?? 1,
+      enabled,
+      shapeClock: 0, last: 0,
+    };
+
+    function clearPanes() { left!.textContent = ''; right!.textContent = ''; }
 
     if (reduce.matches) {
-      renderShape(left, li, 0.5, 0.6);
-      renderShape(right, ri, 0.5, -0.6);
+      if (st.enabled) { renderShape(left, st.li, 0.5, 0.6); renderShape(right, st.ri, 0.5, -0.6); }
+      // still expose controls (next re-renders a static frame)
+      window.asciiBg = {
+        isOn: () => st.enabled,
+        on() { st.enabled = true; sessionStorage.removeItem('ascii-off'); renderShape(left!, st.li, 0.5, 0.6); renderShape(right!, st.ri, 0.5, -0.6); },
+        off() { st.enabled = false; sessionStorage.setItem('ascii-off', '1'); clearPanes(); },
+        toggle() { st.enabled ? this.off() : this.on(); },
+        next() { st.li = (st.li + 1) % SHAPES.length; st.ri = (st.ri + 1) % SHAPES.length; if (st.enabled) { renderShape(left!, st.li, 0.5, 0.6); renderShape(right!, st.ri, 0.5, -0.6); } },
+        setSpeed() {},
+      };
       return;
     }
 
-    let last = 0, shapeClock = 0;
-    const STEP = 55;          // ~18fps
+    const STEP = 42;          // ~24fps — smoother than 18
     const CYCLE = 14000;      // ms per shape
+
+    if (!st.enabled) clearPanes();
 
     function loop(t: number) {
       raf = requestAnimationFrame(loop);
-      if (document.hidden || small.matches) return;
-      if (t - last < STEP) return;
-      const dt = last ? t - last : STEP;
-      last = t;
+      if (document.hidden || small.matches || !st.enabled) return;
+      if (t - st.last < STEP) return;
+      const dt = st.last ? t - st.last : STEP;
+      st.last = t;
 
-      ax += 0.006; ay += 0.010;
-      shapeClock += dt;
-      if (shapeClock >= CYCLE) {
-        shapeClock = 0;
-        li = (li + 1) % SHAPES.length;
-        ri = (ri + 1) % SHAPES.length;
+      // finer per-frame steps (× speed) → reads smoother than the old 18fps/large-step
+      st.ax += 0.0042 * st.speed;
+      st.ay += 0.0072 * st.speed;
+      st.shapeClock += dt;
+      if (st.shapeClock >= CYCLE) {
+        st.shapeClock = 0;
+        st.li = (st.li + 1) % SHAPES.length;
+        st.ri = (st.ri + 1) % SHAPES.length;
       }
-      renderShape(left!, li, ax, ay);
-      renderShape(right!, ri, ax, -ay);
+      renderShape(left!, st.li, st.ax, st.ay);
+      renderShape(right!, st.ri, st.ax, -st.ay);
     }
     raf = requestAnimationFrame(loop);
+
+    // control surface for the terminal
+    window.asciiBg = {
+      isOn: () => st.enabled,
+      on() { st.enabled = true; sessionStorage.removeItem('ascii-off'); },
+      off() { st.enabled = false; sessionStorage.setItem('ascii-off', '1'); clearPanes(); },
+      toggle() { st.enabled ? this.off() : this.on(); },
+      next() { st.shapeClock = 0; st.li = (st.li + 1) % SHAPES.length; st.ri = (st.ri + 1) % SHAPES.length; },
+      setSpeed(name: string) {
+        if (!(name in SPEEDS)) return false;
+        st.speed = SPEEDS[name];
+        sessionStorage.setItem('ascii-speed', name);
+        return true;
+      },
+    };
   }
 
   document.addEventListener('astro:page-load', init);

@@ -286,11 +286,13 @@ const serializedInfo = JSON.stringify(info);
   <span class="output-cyan">neofetch</span>        tech stack
   <span class="output-cyan">ls</span>              list projects
   <span class="output-cyan">cat &lt;project&gt;</span>   project details
+  <span class="output-cyan">case &lt;project&gt;</span>  open a case study on-site
   <span class="output-cyan">open &lt;project&gt;</span>  open project in browser
   <span class="output-cyan">history</span>         work experience
   <span class="output-cyan">education</span>       education
   <span class="output-cyan">contact</span>         social links
-  <span class="output-cyan">cd &lt;page&gt;</span>       navigate (~ projects)
+  <span class="output-cyan">cd &lt;page&gt;</span>       navigate (~ projects lab)
+  <span class="output-cyan">ascii &lt;cmd&gt;</span>     on·off·next·speed &lt;slow|normal|fast&gt;
   <span class="output-cyan">cowsay &lt;text&gt;</span>   moo
   <span class="output-cyan">fortune</span>         random wisdom
   <span class="output-cyan">pwd</span>             current path
@@ -348,9 +350,40 @@ const serializedInfo = JSON.stringify(info);
       let out = `<span class="output-accent">${escapeHtml(project.title)}</span>${priv}\n`;
       out += `<span class="output-result">${escapeHtml(project.description)}</span>\n\n`;
       out += `<span class="output-cyan">tech</span>    ${project.tech.map(t => escapeHtml(t)).join(' · ')}\n`;
+      if (project.caseStudy) out += `<span class="output-cyan">case</span>    <a href="${project.caseStudy}">${project.caseStudy}</a> <span class="output-muted">(type: case ${escapeHtml(project.title)})</span>\n`;
       if (project.github) out += `<span class="output-cyan">src</span>     <a href="${project.github}" target="_blank" rel="noopener">${project.github}</a>\n`;
       if (project.live) out += `<span class="output-cyan">live</span>    <a href="${project.live}" target="_blank" rel="noopener">${project.live}</a>\n`;
       return out.trim();
+    },
+
+    case(args) {
+      const name = args.join(' ').toLowerCase().trim();
+      const withCase = info.projects.filter(p => p.caseStudy);
+      if (!name) {
+        let out = '<span class="output-error">usage: case &lt;project-name&gt;</span>\n<span class="output-muted">case studies:</span>\n';
+        withCase.forEach(p => { out += `  <span class="output-accent">${escapeHtml(p.title)}</span>\n`; });
+        return out.trim();
+      }
+      const project = info.projects.find(p => p.title.toLowerCase() === name);
+      if (!project) return `<span class="output-error">project not found: ${escapeHtml(name)}</span>\n<span class="output-muted">try: ls</span>`;
+      if (!project.caseStudy) return `<span class="output-muted">no case study for ${escapeHtml(project.title)} — try: open ${escapeHtml(project.title)}</span>`;
+      window.location.href = project.caseStudy;
+      return `<span class="output-muted">opening case study: ${escapeHtml(project.title)} ...</span>`;
+    },
+
+    ascii(args) {
+      const api = window.asciiBg;
+      if (!api) return '<span class="output-muted">ascii background is inactive here (needs a viewport wider than 1180px).</span>';
+      const sub = (args[0] || '').toLowerCase();
+      if (sub === 'off') { api.off(); return '<span class="output-muted">ascii background: off</span>'; }
+      if (sub === 'on') { api.on(); return '<span class="output-accent">ascii background: on</span>'; }
+      if (sub === 'next') { api.next(); return '<span class="output-muted">ascii → next shape</span>'; }
+      if (sub === 'speed') {
+        const s = (args[1] || '').toLowerCase();
+        if (api.setSpeed(s)) return `<span class="output-accent">ascii speed: ${escapeHtml(s)}</span>`;
+        return '<span class="output-error">usage: ascii speed &lt;slow|normal|fast&gt;</span>';
+      }
+      return `<span class="output-result">ascii background: ${api.isOn() ? '<span class="output-accent">on</span>' : '<span class="output-muted">off</span>'}</span>\n<span class="output-muted">usage: ascii &lt;on|off|next|speed slow|normal|fast&gt;</span>`;
     },
 
     open(args) {
@@ -407,7 +440,11 @@ const serializedInfo = JSON.stringify(info);
         window.location.href = '/projects';
         return '<span class="output-muted">navigating to ~/projects ...</span>';
       }
-      return `<span class="output-error">no such directory: ${escapeHtml(target)}</span>`;
+      if (target === 'lab' || target === '~/lab') {
+        window.location.href = '/lab';
+        return '<span class="output-muted">navigating to ~/lab ...</span>';
+      }
+      return `<span class="output-error">no such directory: ${escapeHtml(target)}</span>\n<span class="output-muted">try: ~ · projects · lab</span>`;
     },
 
     pwd() {
@@ -886,7 +923,7 @@ const serializedInfo = JSON.stringify(info);
         // complete command names
         const matches = Object.keys(commands).filter(c => c.startsWith(parts[0]));
         if (matches.length === 1) input.value = matches[0] + ' ';
-      } else if (parts[0] === 'cat' || parts[0] === 'open') {
+      } else if (parts[0] === 'cat' || parts[0] === 'open' || parts[0] === 'case') {
         // complete project names
         const partial = parts.slice(1).join(' ');
         const matches = info.projects.filter(p => p.title.toLowerCase().startsWith(partial));
