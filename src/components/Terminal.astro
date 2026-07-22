@@ -5,7 +5,7 @@ import { info } from '@data/info';
 const serializedInfo = JSON.stringify(info);
 ---
 
-<div id="terminal" class="terminal-collapsed">
+<div id="terminal" class="terminal-collapsed" transition:persist>
   {/* collapsed bar */}
   <button
     id="terminal-toggle"
@@ -945,4 +945,8 @@ const serializedInfo = JSON.stringify(info);
   };
 
   updateCwd();
+
+  // the terminal persists across view transitions (transition:persist), so its
+  // listeners survive navigation — but the cwd display must refresh per page.
+  document.addEventListener('astro:page-load', updateCwd);
 </script>
