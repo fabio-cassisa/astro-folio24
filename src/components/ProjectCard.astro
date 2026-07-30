@@ -1,5 +1,6 @@
 ---
 import type { Project } from '@data/info';
+import { disciplineColor } from '@data/disciplines';
 
 interface Props {
   project: Project;
@@ -9,18 +10,7 @@ const { project } = Astro.props;
 const hasImage = project.thumbnail && project.thumbnail.length > 0;
 const isPrivate = 'private' in project && project.private;
 
-const DISCIPLINE_COLORS: Record<string, string> = {
-  web: 'var(--color-cyan)',
-  '3d': 'var(--color-purple)',
-  hardware: 'var(--color-amber)',
-  ml: 'var(--color-red)',
-  sound: 'var(--color-accent)',
-  ai: 'var(--color-accent)',
-  tooling: 'var(--color-text-muted)',
-  research: 'var(--color-text-muted)',
-};
 const discipline = 'discipline' in project ? (project.discipline as string) : undefined;
-const disciplineColor = discipline ? (DISCIPLINE_COLORS[discipline] ?? 'var(--color-text-muted)') : undefined;
 
 // ── one coherent destination per card ──
 // internal case study wins; else the live site; else the repo. Every card
@@ -73,7 +63,7 @@ if (isInternal) {
   {/* card body */}
   <div class="p-4">
     {discipline && (
-      <span class="block text-[0.65rem] uppercase tracking-widest mb-1.5" style={`color:${disciplineColor}`}>
+      <span class="block text-[0.65rem] uppercase tracking-widest mb-1.5" style={`color:${disciplineColor(discipline)}`}>
         {discipline}
       </span>
     )}
@@ -88,7 +78,7 @@ if (isInternal) {
         <span
           class:list={[
             'shrink-0 text-xs whitespace-nowrap',
-            isInternal ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-cyan)]',
+            isInternal ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)]',
           ]}
         >
           {primaryLabel} {primaryArrow}
@@ -110,7 +100,7 @@ if (isInternal) {
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors"
+            class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
           >
             {s.label}
           </a>

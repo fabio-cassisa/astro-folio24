@@ -1,17 +1,52 @@
 ---
 import { info } from '@data/info';
+
+// first paragraph reads as the lead; the rest is supporting detail
+const [lead, ...supporting] = info.about;
+const current = info.experience[0];
+const status = [
+  { color: 'var(--color-accent)', label: info.contact.location },
+  { color: 'var(--color-cyan)', label: `${current.role.toLowerCase()} @ ${current.company.toLowerCase()}` },
+  { color: 'var(--color-amber)', label: 'open to select work' },
+];
 ---
 
-<section class="mb-16">
-  <p class="text-sm text-[var(--color-text-muted)] mb-2">hey, i'm</p>
-  <h1 class="text-3xl md:text-5xl font-bold text-[var(--color-accent)] mb-1 leading-tight">
-    {info.name.toLowerCase()}<span class="cursor" aria-hidden="true"></span>
-  </h1>
-  <p class="text-lg text-[var(--color-cyan)] mb-8">{info.title}</p>
+<section class="mb-16 lg:grid lg:grid-cols-[1fr_15rem] lg:gap-12 lg:items-center">
+  {/* left — the actual content */}
+  <div>
+    <p class="text-sm text-[var(--color-text-muted)] mb-2">hey, i'm</p>
+    <h1 class="text-3xl md:text-5xl font-bold text-[var(--color-accent)] mb-2 leading-tight">
+      {info.name.toLowerCase()}<span class="cursor" aria-hidden="true"></span>
+    </h1>
+    <p class="text-lg text-[var(--color-cyan)] mb-4">{info.title}</p>
 
-  <div class="space-y-3 text-sm leading-relaxed max-w-2xl">
-    {info.about.map((paragraph) => (
-      <p class="text-[var(--color-text)]">{paragraph}</p>
-    ))}
+    {/* status line — structure + useful signal */}
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-[var(--color-text-muted)] mb-8">
+      {
+        status.map((s) => (
+          <span class="inline-flex items-center gap-2">
+            <span class="h-1.5 w-1.5 rounded-full" style={`background:${s.color}`} />
+            {s.label}
+          </span>
+        ))
+      }
+    </div>
+
+    {/* bio — bright lead, then muted supporting detail */}
+    <div class="max-w-2xl">
+      <p class="text-base md:text-lg text-[var(--color-text-bright)] leading-relaxed mb-4">
+        {lead}
+      </p>
+      <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
+        {supporting.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </div>
+
+  {/* right — terminal glyph, anchors the wide layout (desktop only) */}
+  <div aria-hidden="true" class="hidden lg:flex items-center justify-center select-none">
+    <div class="hero-glyph font-bold text-[var(--color-accent)] leading-none">
+      &gt;<span class="hero-caret"></span>
+    </div>
   </div>
 </section>

@@ -89,7 +89,7 @@ a {
   transition: color 0.15s ease;
 }
 a:hover {
-  color: var(--color-cyan);
+  color: var(--color-accent);
 }
 
 code {
@@ -209,4 +209,114 @@ code {
 }
 .no-signal::before {
   content: '[ no signal ]';
+}
+
+/* ============================================
+   rhythm system — home page composition
+   wide bands + reading measures + terminal-native separators.
+   the container widens (Layout wide prop); text stays at a readable
+   measure, bands fill the width, one flagship breaks full-bleed.
+   ============================================ */
+
+/* keep text at a comfortable measure even inside the wide container */
+.reading {
+  max-width: 42rem;
+}
+
+/* hero terminal glyph — anchors the wide layout's right side */
+.hero-glyph {
+  font-size: clamp(6rem, 9vw, 9rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+}
+.hero-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.82em;
+  background: var(--color-accent);
+  animation: blink 1.1s step-end infinite;
+}
+
+/* prompt-style separator — rhythm via punctuation, not just a rule line */
+.prompt-sep {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+.prompt-sep .u {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.prompt-sep .p {
+  color: var(--color-cyan);
+}
+
+/* full-bleed: break out of the container toward the viewport edges */
+.full-bleed {
+  margin-inline: calc(50% - 50vw);
+}
+.full-bleed-inner {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* flagship spotlight — one big entry point above the grid */
+.spotlight {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: linear-gradient(180deg, var(--color-bg-raised), var(--color-bg));
+}
+@media (min-width: 820px) {
+  .spotlight {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+.spotlight-media {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  max-height: 360px;
+  object-fit: cover;
+  object-position: top;
+  border-bottom: 1px solid var(--color-border);
+}
+@media (min-width: 820px) {
+  .spotlight-media {
+    max-height: none;
+    border-bottom: none;
+    border-right: 1px solid var(--color-border);
+  }
+}
+
+/* experience ledger — dense, scannable systems-log (density contrast) */
+.exp-ledger {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 2.5rem;
+}
+@media (min-width: 760px) {
+  .exp-ledger {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.exp-row {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+/* neofetch readout — grid so every value column lines up cleanly.
+   one (label,value) pair per row on mobile; two pairs per row when wide */
+.neo-table {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 1.25rem;
+  row-gap: 0.4rem;
+  align-items: baseline;
+}
+@media (min-width: 760px) {
+  .neo-table {
+    grid-template-columns: max-content minmax(0, 1fr) max-content minmax(0, 1fr);
+    column-gap: 2.5rem;
+  }
 }

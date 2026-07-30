@@ -10,11 +10,13 @@ import BootLoader from '@components/BootLoader.astro';
 interface Props {
   title?: string;
   description?: string;
+  wide?: boolean;
 }
 
 const {
   title = 'dagas — creative technologist',
   description = 'designer, developer, and everything in between. portfolio of fabio cassisa.',
+  wide = false,
 } = Astro.props;
 ---
 
@@ -54,11 +56,27 @@ const {
     <meta property="twitter:image" content="https://dagas-portfolio.vercel.app/og.png" />
 
     <ClientRouter />
+
+    {/* apply a saved accent before paint — no colour flash */}
+    <script is:inline>
+      (function () {
+        try {
+          var a = localStorage.getItem('accent');
+          var c = localStorage.getItem('accent2');
+          var r = document.documentElement;
+          if (a) {
+            r.style.setProperty('--color-accent', a);
+            r.style.setProperty('--color-accent-dim', a + '40');
+          }
+          if (c) r.style.setProperty('--color-cyan', c);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="scanlines">
     <BootLoader />
     <AsciiBackground />
-    <div class="relative z-10 mx-auto max-w-3xl px-6 py-8 md:py-16 pb-20">
+    <div class:list={['relative z-10 mx-auto px-6 py-8 md:py-16 pb-20', wide ? 'max-w-5xl' : 'max-w-3xl']}>
       <Navbar />
       <main>
         <slot />
@@ -66,5 +84,22 @@ const {
       <Footer />
     </div>
     <Terminal />
+
+    <script>
+      // re-apply the saved accent after client-side navigations
+      function applyAccent() {
+        try {
+          const a = localStorage.getItem('accent');
+          const c = localStorage.getItem('accent2');
+          const r = document.documentElement;
+          if (a) {
+            r.style.setProperty('--color-accent', a);
+            r.style.setProperty('--color-accent-dim', a + '40');
+          }
+          if (c) r.style.setProperty('--color-cyan', c);
+        } catch (e) {}
+      }
+      document.addEventListener('astro:after-swap', applyAccent);
+    </script>
   </body>
 </html>

@@ -37,7 +37,7 @@ const { slug, title, description, intro, tech, live, github, liveLabel } = Astro
     <p class="text-xs mb-12 flex flex-wrap gap-4">
       {live && (
         <a href={live} target="_blank" rel="noopener noreferrer"
-           class="text-[var(--color-cyan)] hover:text-[var(--color-accent)] transition-colors">
+           class="text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
           live → {liveLabel ?? live.replace(/^https?:\/\//, '')}
         </a>
       )}

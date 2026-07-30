@@ -4,25 +4,83 @@ import Hero from '@components/Hero.astro';
 import Neofetch from '@components/Neofetch.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import Services from '@components/Services.astro';
-import ExperienceItem from '@components/ExperienceItem.astro';
 import EducationItem from '@components/EducationItem.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import { info } from '@data/info';
 
-const featuredProjects = info.projects.filter((p) => p.featured);
+const featured = info.projects.filter((p) => p.featured);
+// flagship gets the full-bleed spotlight; the rest fill the grid
+const FLAGSHIP = 'studio-75';
+const flagship = featured.find((p) => p.title === FLAGSHIP);
+const rest = featured.filter((p) => p.title !== FLAGSHIP);
+
+const flagshipHref = flagship
+  ? ('caseStudy' in flagship && flagship.caseStudy) || flagship.live || flagship.github || '#'
+  : '#';
+const flagshipPrivate = flagship && 'private' in flagship && flagship.private;
 ---
 
-<Layout>
+<Layout wide>
+  {/* hero — stays reading-width (component owns its own max-w-2xl bio) */}
   <Hero />
+
+  {/* neofetch — dense wide band, framed as a command you ran */}
+  <p class="prompt-sep mb-4">
+    <span class="u">dagas@web</span>:<span class="p">~</span>$ neofetch
+  </p>
   <Neofetch />
 
-  <hr class="divider" />
+  {/* ── featured projects ── wide band: flagship spotlight + breathing grid */}
+  <section class="mt-10 mb-24">
+    <p class="prompt-sep mb-6">
+      <span class="u">dagas@web</span>:<span class="p">~/projects</span>$ ls --featured
+    </p>
 
-  {/* featured projects */}
-  <section class="mb-16">
-    <SectionHeader label="featured projects" />
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+    {/* flagship — full-bleed spotlight */}
+    {flagship && (
+      <a href={flagshipHref} class="full-bleed block group mb-4">
+        <div class="full-bleed-inner">
+          <article
+            class="terminal-window spotlight transition-colors group-hover:border-[var(--color-border-bright)]"
+          >
+            {flagship.thumbnail ? (
+              <img
+                src={flagship.thumbnail}
+                alt={flagship.title}
+                width="900"
+                height="360"
+                class="spotlight-media"
+                loading="eager"
+              />
+            ) : (
+              <div class="no-signal spotlight-media"></div>
+            )}
+            <div class="terminal-body flex flex-col justify-center !p-7">
+              <span class="text-[0.65rem] uppercase tracking-widest text-[var(--color-cyan)] mb-2">
+                flagship · {'discipline' in flagship ? flagship.discipline : 'web'}
+              </span>
+              <h3 class="text-2xl font-semibold text-[var(--color-accent)] leading-tight mb-2">
+                {flagship.title}
+                {flagshipPrivate && (
+                  <span class="text-[var(--color-text-muted)] font-normal text-sm ml-1">[private]</span>
+                )}
+              </h3>
+              <p class="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-md mb-4">
+                {flagship.description}
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                {flagship.tech.map((t) => <span class="tag">{t}</span>)}
+              </div>
+              <span class="mt-5 text-xs text-[var(--color-accent)]">case study →</span>
+            </div>
+          </article>
+        </div>
+      </a>
+    )}
+
+    {/* the rest — 3-col grid that finally breathes */}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {rest.map((project) => <ProjectCard project={project} />)}
     </div>
     <div class="mt-4 text-right">
       <a
@@ -34,24 +92,39 @@ const featuredProjects = info.projects.filter((p) => p.featured);
     </div>
   </section>
 
-  <hr class="divider" />
-
-  {/* services */}
+  {/* ── services ── (component owns its layout; benefits from the wider band) */}
   <Services />
 
   <hr class="divider" />
 
-  {/* experience */}
+  {/* ── experience ── dense ledger */}
   <section class="mb-16">
     <SectionHeader label="experience" />
-    {info.experience.map((item) => <ExperienceItem item={item} />)}
+    <div class="exp-ledger">
+      {info.experience.map((x) => (
+        <div class="exp-row">
+          <div class="flex items-baseline justify-between gap-3">
+            <h3 class="text-sm font-semibold text-[var(--color-text-bright)]">
+              {x.role}
+              <span class="text-[var(--color-accent)] font-normal"> @ {x.company}</span>
+            </h3>
+            <span class="text-xs text-[var(--color-text-muted)] whitespace-nowrap shrink-0">
+              {x.start} — {x.end}
+            </span>
+          </div>
+          <p class="text-[0.72rem] text-[var(--color-text-muted)] mt-1 leading-relaxed">
+            {x.description[0]}
+          </p>
+        </div>
+      ))}
+    </div>
   </section>
 
-  <hr class="divider" />
-
-  {/* education */}
-  <section class="mb-16">
+  {/* ── education ── compact list */}
+  <section class="mb-8">
     <SectionHeader label="education" />
-    {info.education.map((item) => <EducationItem item={item} />)}
+    <div>
+      {info.education.map((item) => <EducationItem item={item} />)}
+    </div>
   </section>
 </Layout>

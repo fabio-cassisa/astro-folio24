@@ -2,16 +2,8 @@
 import Layout from '@layouts/Layout.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import { info } from '@data/info';
+import { DISCIPLINE_COLORS } from '@data/disciplines';
 
-const DISCIPLINE_COLORS: Record<string, string> = {
-  web: 'var(--color-cyan)',
-  '3d': 'var(--color-purple)',
-  hardware: 'var(--color-amber)',
-  ml: 'var(--color-red)',
-  sound: 'var(--color-accent)',
-  ai: 'var(--color-accent)',
-  research: 'var(--color-text-muted)',
-};
 const { experiments } = info;
 // unique disciplines for the legend
 const disciplines = [...new Set(experiments.map((e) => e.discipline))];
@@ -35,7 +27,7 @@ const disciplines = [...new Set(experiments.map((e) => e.discipline))];
     {/* discipline legend */}
     <div class="flex flex-wrap gap-3 mb-8">
       {disciplines.map((d) => (
-        <span class="flex items-center gap-1.5 text-[0.7rem] uppercase tracking-widest" style={`color:${DISCIPLINE_COLORS[d] ?? 'var(--color-text-muted)'}`}>
+        <span class="flex items-center gap-1.5 text-[0.65rem] uppercase tracking-widest" style={`color:${DISCIPLINE_COLORS[d] ?? 'var(--color-text-muted)'}`}>
           <span class="inline-block w-2 h-2 rounded-full" style={`background:${DISCIPLINE_COLORS[d] ?? 'var(--color-text-muted)'}`}></span>
           {d}
         </span>
@@ -61,9 +53,9 @@ const disciplines = [...new Set(experiments.map((e) => e.discipline))];
                 <span class="text-[0.65rem] text-[var(--color-text-muted)]">{e.year}</span>
               </div>
               <div class="flex items-start justify-between gap-2 mb-2">
-                <h3 class="text-base font-semibold text-[var(--color-text-bright)]">{e.title}</h3>
+                <h3 class="text-base font-semibold text-[var(--color-accent)]">{e.title}</h3>
                 {primary && (
-                  <span class="shrink-0 text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-cyan)] whitespace-nowrap">{primaryLabel} ↗</span>
+                  <span class="shrink-0 text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] whitespace-nowrap">{primaryLabel} ↗</span>
                 )}
               </div>
               <p class="text-xs text-[var(--color-text-muted)] leading-relaxed mb-3">{e.blurb}</p>
@@ -73,7 +65,7 @@ const disciplines = [...new Set(experiments.map((e) => e.discipline))];
               {secondaryHref && (
                 <div class="card-actions flex items-center gap-3 mt-3">
                   <a href={secondaryHref} target="_blank" rel="noopener noreferrer"
-                     class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-cyan)] transition-colors">code ↗</a>
+                     class="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">code ↗</a>
                 </div>
               )}
             </div>
