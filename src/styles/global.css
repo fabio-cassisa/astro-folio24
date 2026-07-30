@@ -223,19 +223,14 @@ code {
   max-width: 42rem;
 }
 
-/* hero terminal glyph — anchors the wide layout's right side */
-.hero-glyph {
-  font-size: clamp(6rem, 9vw, 9rem);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.12em;
-}
-.hero-caret {
-  display: inline-block;
-  width: 0.5em;
-  height: 0.82em;
-  background: var(--color-accent);
-  animation: blink 1.1s step-end infinite;
+/* hero ASCII self-portrait — anchors the wide layout's right side */
+.hero-portrait {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  line-height: 1.05;
+  letter-spacing: 0;
+  white-space: pre;
+  margin: 0;
 }
 
 /* prompt-style separator — rhythm via punctuation, not just a rule line */

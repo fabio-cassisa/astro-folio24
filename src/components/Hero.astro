@@ -1,5 +1,6 @@
 ---
 import { info } from '@data/info';
+import selfAscii from '@data/self-ascii.txt?raw';
 
 // first paragraph reads as the lead; the rest is supporting detail
 const [lead, ...supporting] = info.about;
@@ -43,10 +44,11 @@ const status = [
     </div>
   </div>
 
-  {/* right — terminal glyph, anchors the wide layout (desktop only) */}
-  <div aria-hidden="true" class="hidden lg:flex items-center justify-center select-none">
-    <div class="hero-glyph font-bold text-[var(--color-accent)] leading-none">
-      &gt;<span class="hero-caret"></span>
-    </div>
+  {/* right — ASCII self-portrait, anchors the wide layout (desktop only) */}
+  <div aria-hidden="true" class="hidden lg:flex flex-col items-center justify-center gap-2 select-none">
+    <span class="self-start text-[0.65rem] text-[var(--color-text-muted)]">
+      <span class="text-[var(--color-accent)]">$</span> whoami
+    </span>
+    <pre class="hero-portrait text-[var(--color-accent)]">{selfAscii}</pre>
   </div>
 </section>
