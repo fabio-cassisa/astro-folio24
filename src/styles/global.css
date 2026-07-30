@@ -223,6 +223,14 @@ code {
   max-width: 42rem;
 }
 
+/* keyword flip/scramble marks — subtle dotted accent underline at rest */
+.scramble {
+  text-decoration: underline dotted var(--color-accent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+}
+
 /* hero ASCII self-portrait — anchors the wide layout's right side */
 .hero-portrait {
   font-family: var(--font-mono);

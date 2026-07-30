@@ -5,14 +5,35 @@ import selfAscii from '@data/self-ascii.txt?raw';
 // first paragraph reads as the lead; the rest is supporting detail
 const [lead, ...supporting] = info.about;
 const current = info.experience[0];
+const roles = info.experience.length;
+const schools = info.education.length;
 const status = [
   { color: 'var(--color-accent)', label: info.contact.location },
   { color: 'var(--color-cyan)', label: `${current.role.toLowerCase()} @ ${current.company.toLowerCase()}` },
   { color: 'var(--color-amber)', label: 'open to select work' },
 ];
+
+// keywords that flip/scramble on hover (curated, one-ish per sentence)
+const KEYWORDS = [
+  'creative technologist',
+  'physical-computing prototypes',
+  'generative visuals',
+  'sound toys',
+  'ai agents',
+  'polymath',
+];
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const markKeywords = (text: string) => {
+  let html = esc(text);
+  for (const k of KEYWORDS) {
+    const ek = esc(k);
+    html = html.split(ek).join(`<span class="scramble" data-text="${ek}">${ek}</span>`);
+  }
+  return html;
+};
 ---
 
-<section class="mb-16 lg:grid lg:grid-cols-[1fr_15rem] lg:gap-12 lg:items-center">
+<section class="mb-16 lg:grid lg:grid-cols-[1fr_15rem] lg:gap-12 lg:items-stretch">
   {/* left — the actual content */}
   <div>
     <p class="text-sm text-[var(--color-text-muted)] mb-2">hey, i'm</p>
@@ -35,20 +56,101 @@ const status = [
 
     {/* bio — bright lead, then muted supporting detail */}
     <div class="max-w-2xl">
-      <p class="text-base md:text-lg text-[var(--color-text-bright)] leading-relaxed mb-4">
-        {lead}
-      </p>
+      <p
+        class="text-base md:text-lg text-[var(--color-text-bright)] leading-relaxed mb-4"
+        set:html={markKeywords(lead)}
+      />
       <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
-        {supporting.map((paragraph) => <p>{paragraph}</p>)}
+        {supporting.map((paragraph) => <p set:html={markKeywords(paragraph)} />)}
       </div>
     </div>
   </div>
 
-  {/* right — ASCII self-portrait, anchors the wide layout (desktop only) */}
-  <div aria-hidden="true" class="hidden lg:flex flex-col items-center justify-center gap-2 select-none">
-    <span class="self-start text-[0.65rem] text-[var(--color-text-muted)]">
-      <span class="text-[var(--color-accent)]">$</span> whoami
-    </span>
-    <pre class="hero-portrait text-[var(--color-accent)]">{selfAscii}</pre>
+  {/* right — ASCII self-portrait + data readout, top-aligned & full-height (desktop only) */}
+  <div aria-hidden="true" class="hidden lg:flex flex-col justify-between select-none">
+    <div class="flex flex-col gap-2">
+      <span class="text-[0.65rem] text-[var(--color-text-muted)]">
+        <span class="text-[var(--color-accent)]">$</span> whoami
+      </span>
+      <pre class="hero-portrait text-[var(--color-accent)]">{selfAscii}</pre>
+    </div>
+
+    <div class="mt-4 text-[0.68rem] leading-relaxed">
+      <span class="text-[var(--color-text-muted)]">
+        <span class="text-[var(--color-accent)]">$</span> stat ~/me
+      </span>
+      <dl class="mt-1.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5">
+        <dt class="text-[var(--color-cyan)]">coords</dt>
+        <dd class="text-[var(--color-text-muted)]">55.6°N · 13.0°E</dd>
+        <dt class="text-[var(--color-cyan)]">tz</dt>
+        <dd class="text-[var(--color-text-muted)]">Europe/Stockholm</dd>
+        <dt class="text-[var(--color-cyan)]">focus</dt>
+        <dd class="text-[var(--color-text-muted)]">design · code · hardware · art</dd>
+        <dt class="text-[var(--color-cyan)]">log</dt>
+        <dd class="text-[var(--color-text-muted)]">{roles} roles · {schools} schools</dd>
+      </dl>
+    </div>
   </div>
 </section>
+
+<script>
+  // split-flap / flap-board engine — chars cycle random glyphs then settle.
+  // reused for the portrait decode-in and the bio keyword scramble.
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const GLYPHS = '@%#*+=-:.░▒▓/\\<>';
+  const rnd = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
+
+  function decodePortrait(pre: HTMLElement) {
+    if (pre.dataset.decoded) return;
+    pre.dataset.decoded = '1';
+    const final = pre.textContent || '';
+    if (REDUCED || !final.trim()) return;
+    const chars = Array.from(final);
+    const pos = chars.map((c, i) => (c !== ' ' && c !== '\n' ? i : -1)).filter((i) => i >= 0);
+    const per = 700 / pos.length;
+    const start = performance.now();
+    function frame(now: number) {
+      const t = now - start;
+      const out = chars.slice();
+      let done = true;
+      pos.forEach((p, k) => {
+        if (t >= k * per * 0.5 + 100) out[p] = chars[p];
+        else { done = false; out[p] = rnd(); }
+      });
+      pre.textContent = out.join('');
+      if (done) pre.textContent = final;
+      else requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function scramble(el: HTMLElement) {
+    if (REDUCED || el.dataset.busy) return;
+    const finalText = el.dataset.text || el.textContent || '';
+    el.dataset.busy = '1';
+    const chars = Array.from(finalText);
+    const dur = 400;
+    const start = performance.now();
+    function frame(now: number) {
+      const t = now - start;
+      const reveal = (t / dur) * chars.length;
+      el.textContent = chars
+        .map((c, i) => (c === ' ' ? ' ' : i < reveal ? c : rnd()))
+        .join('');
+      if (t < dur) requestAnimationFrame(frame);
+      else { el.textContent = finalText; el.dataset.busy = ''; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function initFlip() {
+    document.querySelectorAll<HTMLElement>('.hero-portrait').forEach(decodePortrait);
+    document.querySelectorAll<HTMLElement>('.scramble').forEach((el) => {
+      if (el.dataset.bound) return;
+      el.dataset.bound = '1';
+      el.addEventListener('mouseenter', () => scramble(el));
+    });
+  }
+  document.addEventListener('astro:page-load', initFlip);
+  initFlip();
+</script>
