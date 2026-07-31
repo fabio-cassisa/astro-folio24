@@ -18,8 +18,26 @@ import { info } from '@data/info';
         ))
       }
     </div>
+    <span class="inline-flex items-center gap-2">
+      <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]"></span>
+      <span id="footer-clock" style="font-variant-numeric:tabular-nums">--:--:--</span>
+      <span class="text-[var(--color-text-muted)]">CET</span>
+    </span>
     <p>
       <span class="text-[var(--color-accent)]">{info.name.toLowerCase()}</span> · 2024–{new Date().getFullYear()}
     </p>
   </div>
 </footer>
+
+<script>
+  function tickClock() {
+    const el = document.getElementById('footer-clock');
+    if (!el) return;
+    const d = new Date();
+    const p = (n: number) => String(n).padStart(2, '0');
+    el.textContent = `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+  document.addEventListener('astro:page-load', tickClock);
+</script>
