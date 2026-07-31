@@ -223,6 +223,51 @@ code {
   max-width: 42rem;
 }
 
+/* ============================================
+   reusable window — drag + traffic-light controls
+   opt in with `.win` (+ base `.terminal-window`); wired by Layout's script.
+   ============================================ */
+.win {
+  position: relative;
+  z-index: 20; /* stay above neighbouring sections when floated */
+  transition: transform 0.18s ease, box-shadow 0.2s ease, margin 0.32s ease, border-radius 0.32s ease;
+  will-change: transform;
+}
+.win.is-dragging {
+  transition: box-shadow 0.2s ease;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  z-index: 35;
+}
+.win-bar { cursor: grab; user-select: none; }
+.win.is-dragging .win-bar { cursor: grabbing; }
+/* smooth window-shade minimize via animatable grid rows */
+.win-shade {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.34s ease;
+}
+.win.is-min .win-shade { grid-template-rows: 0fr; }
+.win-shade > * { overflow: hidden; min-height: 0; }
+/* maximize → full-bleed band */
+.win.is-max { margin-inline: calc(50% - 50vw); border-radius: 0; z-index: 30; }
+.win.is-max .win-body { max-width: 72rem; margin-inline: auto; }
+/* traffic-light control buttons */
+.win-dot {
+  width: 12px; height: 12px; border-radius: 50%; padding: 0; border: none;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; line-height: 1; color: rgba(0, 0, 0, 0.55); flex: none;
+}
+.win-dot--red { background: var(--color-red); }
+.win-dot--amber { background: var(--color-amber); }
+.win-dot--green { background: var(--color-green); }
+.win-dot::after { content: ''; }
+.win-bar:hover .win-dot::after { content: attr(data-glyph); }
+.win-hint {
+  margin-top: 0.6rem; font-size: 0.65rem; color: var(--color-text-muted);
+  opacity: 0.7; transition: opacity 0.5s ease;
+}
+.win-hint.is-gone { opacity: 0; }
+
 /* keyword flip/scramble marks — subtle dotted accent underline at rest */
 .scramble {
   text-decoration: underline dotted var(--color-accent);

@@ -41,19 +41,24 @@ const { services, contact } = info;
     ))}
   </div>
 
-  {/* free-audit hook */}
-  <div class="terminal-window mb-8">
-    <div class="terminal-titlebar">
-      <span class="terminal-dot terminal-dot--red"></span>
-      <span class="terminal-dot terminal-dot--amber"></span>
-      <span class="terminal-dot terminal-dot--green"></span>
-      <span style="margin-left:6px;">free-audit.sh</span>
+  {/* free-audit hook — a draggable window */}
+  <div class="win-wrap mb-8">
+    <div class="terminal-window win">
+      <div class="terminal-titlebar win-bar" data-win-bar>
+        <button class="win-dot win-dot--red" data-win="reset" data-glyph="×" title="reset" aria-label="reset free-audit"></button>
+        <button class="win-dot win-dot--amber" data-win="min" data-glyph="–" title="minimize" aria-label="minimize free-audit"></button>
+        <button class="win-dot win-dot--green" data-win="max" data-glyph="+" title="maximize" aria-label="maximize free-audit"></button>
+        <span style="margin-left:6px;" data-win-title>free-audit.sh</span>
+      </div>
+      <div class="win-shade">
+        <div class="terminal-body win-body">
+          <p class="text-sm text-[var(--color-text)] leading-relaxed max-w-2xl">
+            <span class="text-[var(--color-accent)]">→ </span>{services.hook}
+          </p>
+        </div>
+      </div>
     </div>
-    <div class="terminal-body">
-      <p class="text-sm text-[var(--color-text)] leading-relaxed max-w-2xl">
-        <span class="text-[var(--color-accent)]">→ </span>{services.hook}
-      </p>
-    </div>
+    <p class="win-hint" data-win-hint>psst — drag it, poke the dots ●●●</p>
   </div>
 
   {/* CTA */}
