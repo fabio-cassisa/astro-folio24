@@ -134,14 +134,32 @@ const {
 
           if (!bar) return;
           let d = false, sx = 0, sy = 0, ox = 0, oy = 0, lx = 0, tx = 0, ty = 0, gi = 0;
+          let baseL = 0, baseT = 0, wW = 0, wH = 0, collRaf = 0;
           const glitch = () => {
             if (title) title.textContent = titleText.split('').map((c) => (c === ' ' ? ' ' : Math.random() < 0.28 ? winRnd() : c)).join('');
+          };
+          // gentle, bounded "collision": nudge cards the window is dragged over
+          const bump = (wr: DOMRect) => {
+            if (WIN_REDUCED) return;
+            document.querySelectorAll<HTMLElement>('.card-root, .svc-card').forEach((t) => {
+              if (t.dataset.hit) return;
+              const r = t.getBoundingClientRect();
+              const overlap = !(wr.right < r.left || wr.left > r.right || wr.bottom < r.top || wr.top > r.bottom);
+              if (overlap) {
+                t.dataset.hit = '1';
+                t.classList.add('win-hit');
+                window.setTimeout(() => t.classList.remove('win-hit'), 420);
+                window.setTimeout(() => { delete t.dataset.hit; }, 720);
+              }
+            });
           };
           bar.addEventListener('mousedown', (e) => {
             if (e.button !== 0) return;
             d = true; sx = e.clientX; sy = e.clientY; lx = e.clientX;
             const m = /translate\(([-0-9.]+)px,\s*([-0-9.]+)px\)/.exec(win.style.transform || '');
             ox = m ? +m[1] : 0; oy = m ? +m[2] : 0; tx = ox; ty = oy;
+            const br = win.getBoundingClientRect();
+            baseL = br.left - ox; baseT = br.top - oy; wW = br.width; wH = br.height;
             win.classList.add('is-dragging');
             dismiss();
             if (!WIN_REDUCED && title) gi = window.setInterval(glitch, 90);
@@ -150,9 +168,16 @@ const {
           window.addEventListener('mousemove', (e) => {
             if (!d) return;
             tx = ox + e.clientX - sx; ty = oy + e.clientY - sy;
+            // clamp so the window stays within the viewport (8px margin)
+            const M = 8;
+            const minTx = M - baseL, maxTx = window.innerWidth - M - wW - baseL;
+            const minTy = M - baseT, maxTy = window.innerHeight - M - wH - baseT;
+            if (maxTx > minTx) tx = Math.max(minTx, Math.min(maxTx, tx));
+            if (maxTy > minTy) ty = Math.max(minTy, Math.min(maxTy, ty));
             const v = e.clientX - lx; lx = e.clientX;
             const r = WIN_REDUCED ? 0 : Math.max(-8, Math.min(8, v * 0.5));
             win.style.transform = `translate(${tx}px, ${ty}px) rotate(${r}deg)`;
+            if (!collRaf) collRaf = requestAnimationFrame(() => { collRaf = 0; bump(win.getBoundingClientRect()); });
           });
           window.addEventListener('mouseup', () => {
             if (!d) return;
