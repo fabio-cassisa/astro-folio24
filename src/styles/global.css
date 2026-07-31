@@ -234,7 +234,7 @@ code {
 /* hero ASCII self-portrait — anchors the wide layout's right side */
 .hero-portrait {
   font-family: var(--font-mono);
-  font-size: 7px;
+  font-size: 9px;
   line-height: 1.05;
   letter-spacing: 0;
   white-space: pre;

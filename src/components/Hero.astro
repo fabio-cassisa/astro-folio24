@@ -1,12 +1,12 @@
 ---
 import { info } from '@data/info';
-import selfAscii from '@data/self-ascii.txt?raw';
+import creativeAscii from '@data/creative-ascii.txt?raw';
+import codeAscii from '@data/code-ascii.txt?raw';
+import cubeAscii from '@data/cube-ascii.txt?raw';
 
 // first paragraph reads as the lead; the rest is supporting detail
 const [lead, ...supporting] = info.about;
 const current = info.experience[0];
-const roles = info.experience.length;
-const schools = info.education.length;
 const status = [
   { color: 'var(--color-accent)', label: info.contact.location },
   { color: 'var(--color-cyan)', label: `${current.role.toLowerCase()} @ ${current.company.toLowerCase()}` },
@@ -33,27 +33,28 @@ const markKeywords = (text: string) => {
 };
 ---
 
-<section class="mb-16 lg:grid lg:grid-cols-[1fr_15rem] lg:gap-12 lg:items-stretch">
-  {/* left — the actual content */}
-  <div>
-    <p class="text-sm text-[var(--color-text-muted)] mb-2">hey, i'm</p>
-    <h1 class="text-3xl md:text-5xl font-bold text-[var(--color-accent)] mb-2 leading-tight">
-      {info.name.toLowerCase()}<span class="cursor" aria-hidden="true"></span>
-    </h1>
-    <p class="text-lg text-[var(--color-cyan)] mb-4">{info.title}</p>
+<section class="mb-16">
+  {/* identity — full width */}
+  <p class="text-sm text-[var(--color-text-muted)] mb-2">hey, i'm</p>
+  <h1 class="text-3xl md:text-5xl font-bold text-[var(--color-accent)] mb-2 leading-tight">
+    {info.name.toLowerCase()}<span class="cursor" aria-hidden="true"></span>
+  </h1>
+  <p class="text-lg text-[var(--color-cyan)] mb-4">{info.title}</p>
 
-    {/* status line — structure + useful signal */}
-    <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-[var(--color-text-muted)] mb-8">
-      {
-        status.map((s) => (
-          <span class="inline-flex items-center gap-2">
-            <span class="h-1.5 w-1.5 rounded-full" style={`background:${s.color}`} />
-            {s.label}
-          </span>
-        ))
-      }
-    </div>
+  {/* status line — structure + useful signal */}
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-[var(--color-text-muted)] mb-8">
+    {
+      status.map((s) => (
+        <span class="inline-flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full" style={`background:${s.color}`} />
+          {s.label}
+        </span>
+      ))
+    }
+  </div>
 
+  {/* main block: bio + living glyph, icon top-aligned with the paragraph */}
+  <div class="lg:grid lg:grid-cols-[1fr_17rem] lg:gap-12 lg:items-end">
     {/* bio — bright lead, then muted supporting detail */}
     <div class="max-w-2xl">
       <p
@@ -64,41 +65,30 @@ const markKeywords = (text: string) => {
         {supporting.map((paragraph) => <p set:html={markKeywords(paragraph)} />)}
       </div>
     </div>
-  </div>
 
-  {/* right — ASCII self-portrait + data readout, top-aligned & full-height (desktop only) */}
-  <div aria-hidden="true" class="hidden lg:flex flex-col justify-between select-none">
-    <div class="flex flex-col gap-2">
+    {/* living ASCII glyph — cycles creative → code → 3d (desktop only) */}
+    <div aria-hidden="true" class="hidden lg:flex flex-col gap-2 select-none">
       <span class="text-[0.65rem] text-[var(--color-text-muted)]">
-        <span class="text-[var(--color-accent)]">$</span> whoami
+        <span class="text-[var(--color-accent)]">$</span>{' '}
+        <span data-portrait-label>creative</span>
       </span>
-      <pre class="hero-portrait text-[var(--color-accent)]">{selfAscii}</pre>
-    </div>
-
-    <div class="mt-4 text-[0.68rem] leading-relaxed">
-      <span class="text-[var(--color-text-muted)]">
-        <span class="text-[var(--color-accent)]">$</span> stat ~/me
-      </span>
-      <dl class="mt-1.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5">
-        <dt class="text-[var(--color-cyan)]">coords</dt>
-        <dd class="text-[var(--color-text-muted)]">55.6°N · 13.0°E</dd>
-        <dt class="text-[var(--color-cyan)]">tz</dt>
-        <dd class="text-[var(--color-text-muted)]">Europe/Stockholm</dd>
-        <dt class="text-[var(--color-cyan)]">focus</dt>
-        <dd class="text-[var(--color-text-muted)]">design · code · hardware · art</dd>
-        <dt class="text-[var(--color-cyan)]">log</dt>
-        <dd class="text-[var(--color-text-muted)]">{roles} roles · {schools} schools</dd>
-      </dl>
+      <pre class="hero-portrait text-[var(--color-accent)]" data-portrait>{creativeAscii}</pre>
+      <pre class="hidden" data-portrait-src data-name="creative">{creativeAscii}</pre>
+      <pre class="hidden" data-portrait-src data-name="code">{codeAscii}</pre>
+      <pre class="hidden" data-portrait-src data-name="3d">{cubeAscii}</pre>
     </div>
   </div>
 </section>
 
 <script>
-  // split-flap / flap-board engine — chars cycle random glyphs then settle.
-  // reused for the portrait decode-in and the bio keyword scramble.
+  // split-flap engine — chars cycle random glyphs then settle. Reused for the
+  // portrait decode-in, hover scramble, and an ambient (no-hover) glitch loop
+  // so the page feels alive on desktop AND mobile.
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const GLYPHS = '@%#*+=-:.░▒▓/\\<>';
+  // rich, varied flap alphabet — symbols, blocks, box-drawing, arrows
+  const GLYPHS = '@%#*&$+=~^<>/\\|(){}[]?!01░▒▓█▚▞▙▟╱╲╳◢◣◤◥→↗↘•·';
   const rnd = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
+  let ambientTimer: number | undefined;
 
   function decodePortrait(pre: HTMLElement) {
     if (pre.dataset.decoded) return;
@@ -124,33 +114,113 @@ const markKeywords = (text: string) => {
     requestAnimationFrame(frame);
   }
 
+  // full left-to-right reveal — used on hover / tap
   function scramble(el: HTMLElement) {
     if (REDUCED || el.dataset.busy) return;
     const finalText = el.dataset.text || el.textContent || '';
     el.dataset.busy = '1';
     const chars = Array.from(finalText);
-    const dur = 400;
-    const start = performance.now();
+    const dur = 400, start = performance.now();
     function frame(now: number) {
       const t = now - start;
       const reveal = (t / dur) * chars.length;
-      el.textContent = chars
-        .map((c, i) => (c === ' ' ? ' ' : i < reveal ? c : rnd()))
-        .join('');
+      el.textContent = chars.map((c, i) => (c === ' ' ? ' ' : i < reveal ? c : rnd())).join('');
       if (t < dur) requestAnimationFrame(frame);
       else { el.textContent = finalText; el.dataset.busy = ''; }
     }
     requestAnimationFrame(frame);
   }
 
+  // soft ambient flicker — a few chars glitch and fade back (no hover needed)
+  function flicker(el: HTMLElement) {
+    if (REDUCED || el.dataset.busy) return;
+    const finalText = el.dataset.text || el.textContent || '';
+    el.dataset.busy = '1';
+    const chars = Array.from(finalText);
+    const dur = 650, start = performance.now();
+    function frame(now: number) {
+      const t = now - start;
+      const inten = 0.3 * (1 - t / dur);
+      el.textContent = chars.map((c) => (c === ' ' ? ' ' : Math.random() < inten ? rnd() : c)).join('');
+      if (t < dur) requestAnimationFrame(frame);
+      else { el.textContent = finalText; el.dataset.busy = ''; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // morph the portrait grid from one image to another with a flapping wave
+  let STATES: { name: string; text: string }[] = [];
+  let idx = 0;
+  function morph(pre: HTMLElement, fromText: string, toText: string) {
+    if (REDUCED || pre.dataset.busy || fromText === toText || !fromText || !toText) return;
+    pre.dataset.busy = '1';
+    const from = Array.from(fromText), to = Array.from(toText);
+    const n = to.length, band = 85, dur = 1500, start = performance.now();
+    function frame(now: number) {
+      const t = now - start;
+      const front = (t / dur) * (n + band);
+      let out = '';
+      for (let i = 0; i < n; i++) {
+        const c = to[i];
+        if (c === '\n') out += '\n';
+        else if (i < front - band) out += c;
+        else if (i < front) out += c === ' ' && from[i] === ' ' ? ' ' : rnd();
+        else out += from[i] ?? ' ';
+      }
+      pre.textContent = out;
+      if (t < dur) requestAnimationFrame(frame);
+      else { pre.textContent = toText; pre.dataset.busy = ''; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function setLabel(name: string) {
+    const l = document.querySelector('[data-portrait-label]');
+    if (l) l.textContent = name;
+  }
+  function advance(pre: HTMLElement) {
+    if (pre.dataset.busy || STATES.length < 2) return;
+    const next = (idx + 1) % STATES.length;
+    morph(pre, STATES[idx].text, STATES[next].text);
+    idx = next;
+    setLabel(STATES[idx].name);
+  }
+
+  function ambientTick() {
+    if (!document.hidden) {
+      const pre = document.querySelector<HTMLElement>('.hero-portrait');
+      const marks = [...document.querySelectorAll<HTMLElement>('.scramble')];
+      const preVisible = !!pre && pre.offsetParent !== null;
+      if (preVisible && STATES.length > 1 && !pre!.dataset.busy && Math.random() < 0.6) advance(pre!);
+      else if (marks.length) flicker(marks[(Math.random() * marks.length) | 0]);
+    }
+    ambientTimer = window.setTimeout(ambientTick, 4500 + Math.random() * 3000);
+  }
+
   function initFlip() {
-    document.querySelectorAll<HTMLElement>('.hero-portrait').forEach(decodePortrait);
+    const pre = document.querySelector<HTMLElement>('.hero-portrait');
+    if (pre && !pre.dataset.decoded) {
+      STATES = [...document.querySelectorAll<HTMLElement>('[data-portrait-src]')].map((e) => ({
+        name: e.dataset.name || '',
+        text: e.textContent || '',
+      }));
+      idx = 0;
+      pre.addEventListener('mouseenter', () => advance(pre));
+      pre.addEventListener('click', () => advance(pre));
+      decodePortrait(pre);
+      setLabel(STATES[0]?.name || '');
+    }
     document.querySelectorAll<HTMLElement>('.scramble').forEach((el) => {
       if (el.dataset.bound) return;
       el.dataset.bound = '1';
       el.addEventListener('mouseenter', () => scramble(el));
+      el.addEventListener('click', () => scramble(el)); // touch / no-hover
     });
   }
+
   document.addEventListener('astro:page-load', initFlip);
   initFlip();
+  if (!REDUCED && ambientTimer === undefined) {
+    ambientTimer = window.setTimeout(ambientTick, 3500);
+  }
 </script>
