@@ -4,8 +4,7 @@ import { info } from '@data/info';
 const entries = Object.entries(info.stack);
 
 // Each theme is a coordinated PALETTE — a primary (accent) + a harmonious
-// secondary (the cyan-keyed slot) — not a single flattened hue. Neutrals stay
-// constant. Pairs are analogous, mirroring the default green→teal relationship.
+// secondary (the cyan-keyed slot). Neutrals stay constant.
 const swatches = [
   { name: 'green · default', accent: '#4ade80', sec: '#22d3ee', pick: true },
   { name: 'teal', accent: '#2dd4bf', sec: '#38bdf8', pick: true },
@@ -13,7 +12,6 @@ const swatches = [
   { name: 'rose', accent: '#fb7185', sec: '#f472b6', pick: true },
   { name: 'violet', accent: '#a78bfa', sec: '#818cf8', pick: true },
   { name: 'mono', accent: '#e4e4e7', sec: '#a1a1aa', pick: true },
-  // fixed neutrals — shown for completeness, not clickable
   { name: 'muted', accent: '#6a6a80', sec: '#6a6a80', pick: false },
   { name: 'border', accent: '#3a3a50', sec: '#3a3a50', pick: false },
 ];
@@ -22,251 +20,207 @@ const swatches = [
 <div class="neo-wrap mb-16">
   <section class="terminal-window neo-window" data-neo-win>
     <div class="terminal-titlebar neo-bar" data-neo-drag>
-      <button class="tl-dot tl-dot--red" data-neo="close" data-glyph="×" title="close" aria-label="close neofetch"></button>
+      <button class="tl-dot tl-dot--red" data-neo="reset" data-glyph="×" title="reset" aria-label="reset neofetch"></button>
       <button class="tl-dot tl-dot--amber" data-neo="min" data-glyph="–" title="minimize" aria-label="minimize neofetch"></button>
       <button class="tl-dot tl-dot--green" data-neo="max" data-glyph="+" title="maximize" aria-label="maximize neofetch"></button>
       <span class="ml-2 neo-title">dagas@web — neofetch</span>
     </div>
-    <div class="terminal-body neo-body text-xs md:text-sm">
-      {/* host line + rule */}
-      <div class="mb-4">
-        <span class="text-[var(--color-accent)] font-semibold">dagas</span><span
-          class="text-[var(--color-text-muted)]">@web</span>
-        <div class="border-t border-[var(--color-border)] mt-2"></div>
-      </div>
-
-      {/* aligned key/value readout */}
-      <dl class="neo-table">
-        {
-          entries.map(([category, items]) => (
-            <Fragment>
-              <dt class="text-[var(--color-cyan)] font-medium">{category}</dt>
-              <dd class="text-[var(--color-text)]">{(items as string[]).join(' · ')}</dd>
-            </Fragment>
-          ))
-        }
-      </dl>
-
-      {/* palette blocks — neofetch signature, doubling as a live accent picker */}
-      <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-        <div class="flex gap-1.5" id="accent-palette">
-          {
-            swatches.map((s) =>
-              s.pick ? (
-                <button
-                  type="button"
-                  class="accent-swatch h-5 w-5 rounded-sm border border-[var(--color-border)]"
-                  style={`background:linear-gradient(135deg, ${s.accent} 0 50%, ${s.sec} 50% 100%)`}
-                  data-accent={s.accent}
-                  data-sec={s.sec}
-                  title={`theme: ${s.name}`}
-                  aria-label={`theme the site ${s.name}`}
-                />
-              ) : (
-                <span
-                  class="h-5 w-5 rounded-sm border border-[var(--color-border)]"
-                  style={`background:${s.accent}`}
-                />
-              )
-            )
-          }
+    <div class="neo-shade">
+      <div class="terminal-body neo-body text-xs md:text-sm">
+        {/* host line + rule */}
+        <div class="mb-4">
+          <span class="text-[var(--color-accent)] font-semibold">dagas</span><span
+            class="text-[var(--color-text-muted)]">@web</span>
+          <div class="border-t border-[var(--color-border)] mt-2"></div>
         </div>
-        <span class="text-[0.65rem] text-[var(--color-text-muted)]">
-          ← each chip is a palette · click to theme the site
-        </span>
+
+        {/* aligned key/value readout */}
+        <dl class="neo-table">
+          {
+            entries.map(([category, items]) => (
+              <Fragment>
+                <dt class="text-[var(--color-cyan)] font-medium">{category}</dt>
+                <dd class="text-[var(--color-text)]">{(items as string[]).join(' · ')}</dd>
+              </Fragment>
+            ))
+          }
+        </dl>
+
+        {/* palette blocks — neofetch signature, doubling as a live accent picker */}
+        <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div class="flex gap-1.5" id="accent-palette">
+            {
+              swatches.map((s) =>
+                s.pick ? (
+                  <button
+                    type="button"
+                    class="accent-swatch h-5 w-5 rounded-sm border border-[var(--color-border)]"
+                    style={`background:linear-gradient(135deg, ${s.accent} 0 50%, ${s.sec} 50% 100%)`}
+                    data-accent={s.accent}
+                    data-sec={s.sec}
+                    title={`theme: ${s.name}`}
+                    aria-label={`theme the site ${s.name}`}
+                  />
+                ) : (
+                  <span
+                    class="h-5 w-5 rounded-sm border border-[var(--color-border)]"
+                    style={`background:${s.accent}`}
+                  />
+                )
+              )
+            }
+          </div>
+          <span class="text-[0.65rem] text-[var(--color-text-muted)]">
+            ← each chip is a palette · click to theme the site
+          </span>
+        </div>
       </div>
     </div>
   </section>
 
-  {/* reopen chip — shown only after the window is closed */}
-  <button class="neo-reopen" data-neo="reopen" hidden aria-label="reopen neofetch">
-    <span class="tl-dot tl-dot--green"></span>
-    <span><span class="text-[var(--color-accent)]">$</span> neofetch</span>
-    <span class="text-[var(--color-text-muted)]">— reopen</span>
-  </button>
+  <p class="neo-hint" data-neo-hint>psst — drag the bar, poke the dots ●●●</p>
 </div>
 
 <style>
-  .neo-wrap {
-    position: relative;
-  }
+  .neo-wrap { position: relative; z-index: 20; }
   .neo-window {
-    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    position: relative;
+    z-index: 20; /* stay above neighbouring sections when floated */
+    transition: transform 0.18s ease, box-shadow 0.2s ease, margin 0.32s ease, border-radius 0.32s ease;
     will-change: transform;
   }
   .neo-window.is-dragging {
     transition: box-shadow 0.2s ease;
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
-    z-index: 30;
+    z-index: 35;
   }
-  .neo-bar {
-    cursor: grab;
-    user-select: none;
+  .neo-window.is-max { z-index: 30; }
+  .neo-bar { cursor: grab; user-select: none; }
+  .neo-window.is-dragging .neo-bar { cursor: grabbing; }
+
+  /* smooth window-shade minimize via animatable grid rows */
+  .neo-shade {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.34s ease;
   }
-  .neo-window.is-dragging .neo-bar {
-    cursor: grabbing;
-  }
-  /* window-shade minimize */
-  .neo-body {
-    overflow: hidden;
-  }
-  .neo-window.is-min .neo-body {
-    display: none;
-  }
-  /* maximize → full-bleed band */
-  .neo-window.is-max {
-    margin-inline: calc(50% - 50vw);
-    border-radius: 0;
-  }
-  .neo-window.is-max .neo-body {
-    max-width: 72rem;
-    margin-inline: auto;
-    width: 100%;
-  }
+  .neo-window.is-min .neo-shade { grid-template-rows: 0fr; }
+  .neo-shade > .neo-body { overflow: hidden; min-height: 0; }
+
+  /* maximize → full-bleed band (eased) */
+  .neo-window.is-max { margin-inline: calc(50% - 50vw); border-radius: 0; }
+  .neo-window.is-max .neo-body { max-width: 72rem; margin-inline: auto; width: 100%; }
 
   /* traffic-light buttons */
   .tl-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.55);
-    flex: none;
+    width: 12px; height: 12px; border-radius: 50%; padding: 0; border: none;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px; line-height: 1; color: rgba(0, 0, 0, 0.55); flex: none;
   }
   .tl-dot--red { background: var(--color-red); }
   .tl-dot--amber { background: var(--color-amber); }
   .tl-dot--green { background: var(--color-green); }
-  /* reveal ×/–/+ glyphs on titlebar hover, macOS-style */
   .tl-dot::after { content: ''; }
   .neo-bar:hover .tl-dot::after { content: attr(data-glyph); }
 
-  /* reopen chip */
-  .neo-reopen {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    font-size: 0.8rem;
-    font-family: var(--font-mono);
-    color: var(--color-text);
-    background: var(--color-bg-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.15s ease;
+  .neo-hint {
+    margin-top: 0.6rem;
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
   }
-  .neo-reopen:hover { border-color: var(--color-accent); }
+  .neo-hint.is-gone { opacity: 0; }
 
-  .accent-swatch {
-    cursor: pointer;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-  }
-  .accent-swatch:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-text-bright);
-  }
-  .accent-swatch.is-active {
-    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-accent);
-  }
+  .accent-swatch { cursor: pointer; transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .accent-swatch:hover { transform: translateY(-2px); box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-text-bright); }
+  .accent-swatch.is-active { box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-accent); }
 </style>
 
 <script>
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const G = '@%#*&$+=<>/\\|?!░▒▓01';
+  const rnd = () => G[(Math.random() * G.length) | 0];
+
   function initAccentPicker() {
     const swatches = document.querySelectorAll<HTMLButtonElement>('.accent-swatch');
     let active = '#4ade80';
-    try {
-      active = localStorage.getItem('accent') || '#4ade80';
-    } catch (e) {}
+    try { active = localStorage.getItem('accent') || '#4ade80'; } catch (e) {}
     swatches.forEach((btn) => {
       btn.classList.toggle('is-active', btn.dataset.accent === active);
       if (btn.dataset.bound) return;
       btn.dataset.bound = 'true';
       btn.addEventListener('click', () => {
-        const a = btn.dataset.accent;
-        const sec = btn.dataset.sec || a;
+        const a = btn.dataset.accent, sec = btn.dataset.sec || btn.dataset.accent;
         if (!a) return;
         const r = document.documentElement;
         r.style.setProperty('--color-accent', a);
         r.style.setProperty('--color-accent-dim', a + '40');
-        r.style.setProperty('--color-cyan', sec);
-        try {
-          localStorage.setItem('accent', a);
-          localStorage.setItem('accent2', sec);
-        } catch (e) {}
+        r.style.setProperty('--color-cyan', sec!);
+        try { localStorage.setItem('accent', a); localStorage.setItem('accent2', sec!); } catch (e) {}
         swatches.forEach((s) => s.classList.toggle('is-active', s === btn));
       });
     });
   }
 
-  // functional window: traffic lights + drag-by-titlebar (floats, no reflow)
   function initNeoWindow() {
     const win = document.querySelector<HTMLElement>('[data-neo-win]');
     const bar = document.querySelector<HTMLElement>('[data-neo-drag]');
-    const reopen = document.querySelector<HTMLElement>('[data-neo="reopen"]');
+    const hint = document.querySelector<HTMLElement>('[data-neo-hint]');
+    const title = win?.querySelector<HTMLElement>('.neo-title');
     if (!win || !bar || win.dataset.bound) return;
     win.dataset.bound = '1';
+    const titleText = title ? title.textContent || '' : '';
+    const dismissHint = () => hint && hint.classList.add('is-gone');
 
-    const setControl = (el: Element) => {
+    // controls
+    win.querySelectorAll('[data-neo="reset"],[data-neo="min"],[data-neo="max"]').forEach((el) => {
       const act = el.getAttribute('data-neo');
-      el.addEventListener('mousedown', (e) => e.stopPropagation()); // don't start a drag
+      el.addEventListener('mousedown', (e) => e.stopPropagation());
       el.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (act === 'min') win.classList.toggle('is-min');
-        else if (act === 'max') win.classList.toggle('is-max');
-        else if (act === 'close') {
-          win.style.display = 'none';
-          win.classList.remove('is-min', 'is-max');
-          win.style.transform = '';
-          if (reopen) reopen.hidden = false;
-        }
+        dismissHint();
+        if (act === 'min') { win.classList.remove('is-max'); win.classList.toggle('is-min'); }
+        else if (act === 'max') { win.classList.remove('is-min'); win.classList.toggle('is-max'); }
+        else { win.classList.remove('is-min', 'is-max'); win.style.transform = ''; } // reset → initial
       });
-    };
-    win.querySelectorAll('[data-neo="close"],[data-neo="min"],[data-neo="max"]').forEach(setControl);
-    if (reopen) {
-      reopen.addEventListener('click', () => {
-        win.style.display = '';
-        reopen.hidden = true;
-      });
-    }
+    });
 
-    // drag via titlebar — transform only, so surrounding layout never reflows
-    let dragging = false, sx = 0, sy = 0, ox = 0, oy = 0;
+    // drag: floats via transform, tilts with fling velocity, glitches its title
+    let dragging = false, sx = 0, sy = 0, ox = 0, oy = 0, lastX = 0, tx = 0, ty = 0, gi = 0;
+    const glitchTitle = () => {
+      if (!title) return;
+      title.textContent = titleText.split('').map((c) => (c === ' ' ? ' ' : Math.random() < 0.28 ? rnd() : c)).join('');
+    };
     bar.addEventListener('mousedown', (e) => {
       if (e.button !== 0) return;
-      dragging = true;
-      sx = e.clientX;
-      sy = e.clientY;
+      dragging = true; sx = e.clientX; sy = e.clientY; lastX = e.clientX;
       const m = /translate\(([-0-9.]+)px,\s*([-0-9.]+)px\)/.exec(win.style.transform || '');
-      ox = m ? +m[1] : 0;
-      oy = m ? +m[2] : 0;
+      ox = m ? +m[1] : 0; oy = m ? +m[2] : 0; tx = ox; ty = oy;
       win.classList.add('is-dragging');
+      dismissHint();
+      if (!REDUCED) gi = window.setInterval(glitchTitle, 90);
       e.preventDefault();
     });
     window.addEventListener('mousemove', (e) => {
       if (!dragging) return;
-      win.style.transform = `translate(${ox + e.clientX - sx}px, ${oy + e.clientY - sy}px)`;
+      tx = ox + e.clientX - sx; ty = oy + e.clientY - sy;
+      const vel = e.clientX - lastX; lastX = e.clientX;
+      const rot = REDUCED ? 0 : Math.max(-8, Math.min(8, vel * 0.5));
+      win.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
     });
     window.addEventListener('mouseup', () => {
       if (!dragging) return;
       dragging = false;
       win.classList.remove('is-dragging');
+      if (gi) { clearInterval(gi); gi = 0; }
+      if (title) title.textContent = titleText;
+      win.style.transform = `translate(${tx}px, ${ty}px)`; // drop tilt, settle (transition)
     });
-    bar.addEventListener('dblclick', () => {
-      win.style.transform = ''; // snap back
-    });
+    bar.addEventListener('dblclick', () => { win.style.transform = ''; }); // snap back
   }
 
-  document.addEventListener('astro:page-load', () => {
-    initAccentPicker();
-    initNeoWindow();
-  });
+  document.addEventListener('astro:page-load', () => { initAccentPicker(); initNeoWindow(); });
   initAccentPicker();
   initNeoWindow();
 </script>
