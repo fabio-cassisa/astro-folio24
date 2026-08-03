@@ -269,16 +269,6 @@ code {
 .win-hint.is-gone { opacity: 0; }
 .win-bar { touch-action: none; }
 
-/* gentle temporary "collision" nudge when a dragged window bumps an element */
-@keyframes winHit {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-4px); }
-  40% { transform: translateX(3px); }
-  60% { transform: translateX(-2px); }
-  80% { transform: translateX(2px); }
-}
-.win-hit { animation: winHit 0.4s ease; }
-
 /* keyword flip/scramble marks — subtle dotted accent underline at rest */
 .scramble {
   text-decoration: underline dotted var(--color-accent);

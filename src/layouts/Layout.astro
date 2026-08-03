@@ -111,6 +111,22 @@ const {
       const winRnd = () => WIN_GLYPHS[(Math.random() * WIN_GLYPHS.length) | 0];
 
       function initWindows() {
+        // floated windows tidy back to their dock on scroll (never drift off-screen)
+        if (!(window as any).__winScrollBound) {
+          (window as any).__winScrollBound = true;
+          let sRaf = 0;
+          window.addEventListener('scroll', () => {
+            if (sRaf) return;
+            sRaf = requestAnimationFrame(() => {
+              sRaf = 0;
+              document.querySelectorAll<HTMLElement>('.win').forEach((w) => {
+                if (w.classList.contains('is-dragging')) return;
+                if (w.style.transform) w.style.transform = '';
+              });
+            });
+          }, { passive: true });
+        }
+
         document.querySelectorAll<HTMLElement>('.win').forEach((win) => {
           if (win.dataset.winBound) return;
           win.dataset.winBound = '1';
@@ -141,16 +157,23 @@ const {
           // gentle, bounded "collision": nudge cards the window is dragged over
           const bump = (wr: DOMRect) => {
             if (WIN_REDUCED) return;
+            const wcx = (wr.left + wr.right) / 2, wcy = (wr.top + wr.bottom) / 2;
             document.querySelectorAll<HTMLElement>('.card-root, .svc-card').forEach((t) => {
               if (t.dataset.hit) return;
               const r = t.getBoundingClientRect();
               const overlap = !(wr.right < r.left || wr.left > r.right || wr.bottom < r.top || wr.top > r.bottom);
-              if (overlap) {
-                t.dataset.hit = '1';
-                t.classList.add('win-hit');
-                window.setTimeout(() => t.classList.remove('win-hit'), 420);
-                window.setTimeout(() => { delete t.dataset.hit; }, 720);
-              }
+              if (!overlap) return;
+              t.dataset.hit = '1';
+              // shove the element AWAY from the window's centre, then spring back
+              const ecx = (r.left + r.right) / 2, ecy = (r.top + r.bottom) / 2;
+              let dx = ecx - wcx, dy = ecy - wcy;
+              const len = Math.hypot(dx, dy) || 1;
+              const push = 14;
+              dx = (dx / len) * push; dy = (dy / len) * push;
+              t.style.transition = 'transform 0.3s cubic-bezier(0.22,0.9,0.3,1)';
+              t.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+              window.setTimeout(() => { t.style.transform = ''; }, 160);
+              window.setTimeout(() => { t.style.transition = ''; delete t.dataset.hit; }, 540);
             });
           };
           bar.addEventListener('mousedown', (e) => {
