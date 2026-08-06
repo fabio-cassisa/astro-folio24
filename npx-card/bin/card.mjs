@@ -15,22 +15,25 @@ const rows = [
   ['mail', 'cassisafabio97@gmail.com'],
 ];
 
-const W = 62;
-// display width: strip ANSI, normalize to NFC (decomposed accents like é as
-// e+U+0301 are 2 code units but 1 column — the v1.0.0 border-drift bug),
-// then count code points, not UTF-16 units.
+// display width: strip ANSI, NFC-normalize (decomposed accents), count code points
 const width = (s) => [...s.replace(/\x1b\[[0-9;]*m/g, '').normalize('NFC')].length;
-const line = (s = '') =>
-  console.log(`  ${d('│')} ${s}${' '.repeat(Math.max(0, W - width(s)))} ${d('│')}`);
+
+// content first — the box sizes itself to the longest line, so nothing can overflow
+const content = [
+  `${d('●')} ${d('●')} ${d('●')}  ${d('fabio@cassisa — card')}`,
+  '@RULE@',
+  '',
+  `${b('Fabio Cassisa')}  ${d('//')}  ${c('dagas')}`,
+  '',
+  ...rows.map(([k, v]) => `${g(k.padEnd(5))}${v}`),
+  '',
+  d('this card is printed on my paper résumé — hej, nice to meet you'),
+  '',
+];
+
+const W = Math.max(...content.map((s) => (s === '@RULE@' ? 0 : width(s))));
+const line = (s) => console.log(`  ${d('│')} ${s}${' '.repeat(W - width(s))} ${d('│')}`);
 
 console.log(`\n  ${d('┌' + '─'.repeat(W + 2) + '┐')}`);
-line(`${d('●')} ${d('●')} ${d('●')}  ${d('fabio@cassisa — card')}`);
-line(d('─'.repeat(W)));
-line();
-line(`${b('Fabio Cassisa')}  ${d('//')}  ${c('dagas')}`);
-line();
-for (const [k, v] of rows) line(`${g(k.padEnd(5))}${v}`);
-line();
-line(d('this card is printed on my paper résumé — hej, nice to meet you'));
-line();
+for (const s of content) line(s === '@RULE@' ? d('─'.repeat(W)) : s);
 console.log(`  ${d('└' + '─'.repeat(W + 2) + '┘')}\n`);

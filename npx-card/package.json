@@ -1,6 +1,6 @@
 {
   "name": "dagas-card",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fabio Cassisa \u2014 designer \u00b7 maker \u00b7 coder. This is my r\u00e9sum\u00e9, in your terminal.",
   "bin": {
     "dagas-card": "bin/card.mjs"
