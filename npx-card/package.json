@@ -1,8 +1,8 @@
 {
-  "name": "dagas",
+  "name": "dagas-card",
   "version": "1.0.0",
   "description": "Fabio Cassisa — designer · maker · coder. This is my résumé, in your terminal.",
-  "bin": { "dagas": "bin/card.mjs" },
+  "bin": { "dagas-card": "bin/card.mjs" },
   "type": "module",
   "engines": { "node": ">=18" },
   "license": "MIT",
