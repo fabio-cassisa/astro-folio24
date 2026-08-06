@@ -1,12 +1,24 @@
 {
   "name": "dagas-card",
-  "version": "1.0.0",
-  "description": "Fabio Cassisa — designer · maker · coder. This is my résumé, in your terminal.",
-  "bin": { "dagas-card": "bin/card.mjs" },
+  "version": "1.0.1",
+  "description": "Fabio Cassisa \u2014 designer \u00b7 maker \u00b7 coder. This is my r\u00e9sum\u00e9, in your terminal.",
+  "bin": {
+    "dagas-card": "bin/card.mjs"
+  },
   "type": "module",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "license": "MIT",
   "author": "Fabio Cassisa",
-  "repository": { "type": "git", "url": "https://github.com/fabio-cassisa/portfolio" },
-  "keywords": ["resume", "cli", "card", "npx"]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabio-cassisa/portfolio"
+  },
+  "keywords": [
+    "resume",
+    "cli",
+    "card",
+    "npx"
+  ]
 }
