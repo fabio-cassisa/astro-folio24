@@ -64,6 +64,11 @@ export const resume = {
       tags: ['astro', 'tailwind'],
     },
     {
+      title: 'sculptr',
+      blurb: 'Turn any SVG or sketch into an interactive 3D sculpture — real-time extrusion, materials, lighting, and export.',
+      tags: ['three.js', 'next.js', 'electron'],
+    },
+    {
       title: 'client studio work',
       blurb: 'Sites for studios & artists — music studio with audio-reactive waveform, bilingual tattoo-studio rebuilds, booking platforms.',
       tags: ['astro', 'next.js', 'gsap'],

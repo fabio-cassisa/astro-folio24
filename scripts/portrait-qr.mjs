@@ -45,7 +45,7 @@ const size = n * CELL;
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges">
 <rect width="${size}" height="${size}" fill="#faf9f6"/>
 <g fill="#16161d">${cells}</g>
-<g fill="#15803d" font-family="JetBrains Mono, ui-monospace, monospace" font-weight="600">${text}</g>
+<g fill="#166534" font-family="JetBrains Mono, ui-monospace, monospace" font-weight="700">${text}</g>
 </svg>`;
 
 mkdirSync('public/images', { recursive: true });
