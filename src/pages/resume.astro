@@ -1,0 +1,110 @@
+---
+// print-first resume — deliberately NOT the site Layout: no nav, no boot
+// loader, no dark theme, no JS. print of this page = the PDF.
+import { resume } from '../data/resume';
+import '../styles/resume.css';
+const r = resume;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{r.meta.name} — resume</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="sheet">
+      <div class="bar">
+        <span class="dot" style="background:#f87171"></span>
+        <span class="dot" style="background:#fbbf24"></span>
+        <span class="dot" style="background:#4ade80"></span>
+        <span class="t">fabio@cassisa — resume — 210×297</span>
+      </div>
+
+      <div class="page">
+        <header class="head">
+          <div>
+            <h1>{r.meta.name}</h1>
+            <p class="tag">{r.meta.tagline}</p>
+            <div class="neo">
+              {r.header.map((row) => (
+                <><span class="k">{row.k}</span><span class="s">│</span><span>{row.v}</span></>
+              ))}
+            </div>
+          </div>
+          <img class="qr" src="/images/portrait-qr.png" alt={`QR code to ${r.meta.url}`} />
+        </header>
+
+        <div class="cols">
+          <div class="main">
+            <section>
+              <h2>cat <span class="cmd">experience.log</span> <span class="sr">— Experience</span></h2>
+              {r.experience.map((e) => (
+                <div class="role">
+                  <div class="role-head">
+                    <b>{e.role}</b><span class="co">{e.company}</span>
+                    <span class="when">{e.where} · {e.when}</span>
+                  </div>
+                  <ul>{e.bullets.map((b) => <li>{b}</li>)}</ul>
+                </div>
+              ))}
+              <div class="ledger">
+                {r.ledger.map((l) => (
+                  <div><span class="when">{l.when}</span><span>{l.what}</span></div>
+                ))}
+              </div>
+            </section>
+
+            <section style="margin-top:4.5mm">
+              <h2>ls <span class="cmd">projects/</span> <span class="sr">— Projects</span></h2>
+              {r.projects.map((p) => (
+                <div class="proj">
+                  <b>{p.title}</b> <span class="tags">[{p.tags.join(' · ')}]</span>
+                  <p>{p.blurb}</p>
+                </div>
+              ))}
+            </section>
+          </div>
+
+          <aside class="rail">
+            <section class="stack">
+              <h2>echo <span class="cmd">$STACK</span> <span class="sr">— Skills</span></h2>
+              {Object.entries(r.stack).map(([grp, items]) => (
+                <div class="grp"><b>{grp}</b>: {items.join(' · ')}</div>
+              ))}
+            </section>
+            <section>
+              <h2>cat <span class="cmd">education</span> <span class="sr">— Education</span></h2>
+              <div class="ledger">
+                {r.education.map((e) => (
+                  <div><span class="when">{e.when}</span><span>{e.what}</span></div>
+                ))}
+              </div>
+            </section>
+            <section>
+              <h2>locale <span class="cmd">-a</span> <span class="sr">— Languages</span></h2>
+              <div class="kv">
+                {r.languages.map((l) => (
+                  <div><span class="k">{l.k}</span>{l.v}</div>
+                ))}
+              </div>
+            </section>
+          </aside>
+        </div>
+
+        <footer class="foot">
+          <span class="npx">npx dagas</span>
+          <span>runs this résumé in your terminal</span>
+          <span class="date">{r.meta.url} · compiled {r.meta.compiled}</span>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>

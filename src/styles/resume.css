@@ -1,0 +1,103 @@
+/* resume — print-mode terminal. paper palette, A4-first. */
+:root {
+  --paper: #faf9f6;
+  --ink: #16161d;
+  --muted: #5c5c66;
+  --rule: #d8d6cf;
+  --green: #15803d;
+  --teal: #0e7490;
+  --bar: #12121a;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+/* screen: paper sheet floating on the site's dark bg */
+html { background: #0a0a0f; }
+body { margin: 0; display: grid; place-items: start center; padding: 3rem 1rem; }
+.sheet {
+  width: 210mm; min-height: 297mm; background: var(--paper); color: var(--ink);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  display: flex; flex-direction: column;
+}
+@media (max-width: 850px) { body { padding: 0 } .sheet { width: 100%; min-height: 0 } }
+
+@page { size: A4; margin: 0; }
+@media print {
+  html, body { background: var(--paper); padding: 0; display: block; }
+  .sheet { box-shadow: none; width: auto; min-height: 0; }
+}
+
+/* titlebar — the one dark element */
+.bar {
+  background: var(--bar); color: #c8c8d0; font: 500 8.5pt var(--mono);
+  display: flex; align-items: center; gap: 6px; padding: 8px 12mm;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.bar .dot { width: 9px; height: 9px; border-radius: 50%; }
+.bar .t { margin-inline: auto; color: #8a8a99; }
+
+.page { padding: 9mm 12mm 6mm; display: flex; flex-direction: column; gap: 4.5mm; flex: 1; }
+
+/* header: neofetch block + portrait-QR */
+.head { display: grid; grid-template-columns: 1fr auto; gap: 8mm; align-items: start; }
+.head h1 { font: 700 20pt var(--mono); margin: 0; letter-spacing: -0.02em; }
+.head .tag { font: 500 10pt var(--mono); color: var(--teal); margin: 1mm 0 3mm; }
+.neo { display: grid; grid-template-columns: max-content max-content 1fr; gap: 0.8mm 3mm; font: 400 8.5pt var(--mono); }
+.neo .k { color: var(--green); font-weight: 600; }
+.neo .s { color: var(--rule); }
+
+/* two-column body */
+.cols { display: grid; grid-template-columns: 1fr 56mm; gap: 8mm; flex: 1; }
+
+/* prompt-styled section headers — semantic word kept, prompt is decoration */
+h2 {
+  font: 600 9.5pt var(--mono); color: var(--ink); text-transform: lowercase;
+  margin: 0 0 2.5mm; padding-bottom: 1.2mm; border-bottom: 1px solid var(--rule);
+}
+h2::before { content: '$ '; color: var(--green); }
+h2 .cmd { color: var(--teal); font-weight: 500; }
+h2 .sr { color: var(--muted); font-weight: 400; font-size: 7.5pt; text-transform: none; }
+
+/* experience */
+.role { margin-bottom: 3.5mm; break-inside: avoid; }
+.role-head { display: flex; align-items: baseline; gap: 3mm; font-family: var(--mono); }
+.role-head b { font-size: 10pt; font-weight: 700; }
+.role-head .co { color: var(--teal); font-weight: 600; font-size: 9.5pt; }
+.role-head .when { margin-left: auto; color: var(--muted); font-size: 8pt; white-space: nowrap; }
+.role ul { margin: 1.5mm 0 0; padding-left: 4mm; list-style: none; }
+.role li { font: 400 9pt/1.5 var(--sans); margin-bottom: 1.4mm; position: relative; }
+.role li::before { content: '▸'; color: var(--green); position: absolute; left: -4mm; font-size: 7pt; top: 1pt; }
+
+/* ledger + rail lists */
+.ledger { font: 400 8pt/1.5 var(--mono); }
+.ledger > div { display: flex; gap: 3mm; padding: 0.9mm 0; border-bottom: 1px dashed var(--rule); }
+.ledger .when { color: var(--muted); flex: none; width: 13mm; }
+
+.proj { margin-bottom: 3.4mm; break-inside: avoid; }
+.proj b { font: 600 9pt var(--mono); }
+.proj .tags { color: var(--teal); font: 400 7.5pt var(--mono); }
+.proj p { font: 400 8.5pt/1.4 var(--sans); margin: 0.5mm 0 0; }
+
+.rail { display: flex; flex-direction: column; gap: 4.5mm; min-width: 0; }
+.stack .grp { font: 400 8pt/1.55 var(--mono); margin-bottom: 0.6mm; }
+.stack .grp b { color: var(--green); font-weight: 600; }
+.kv { font: 400 8.5pt/1.7 var(--mono); }
+.kv .k { color: var(--green); font-weight: 600; display: inline-block; width: 8mm; }
+
+/* footer: the runnable line */
+.foot {
+  margin-top: auto; padding-top: 2.5mm; border-top: 1px solid var(--rule);
+  display: flex; align-items: baseline; gap: 4mm; font: 400 8.5pt var(--mono); color: var(--muted);
+}
+.foot .npx { color: var(--ink); font-weight: 600; }
+.foot .npx::before { content: '$ '; color: var(--green); }
+.foot .date { margin-left: auto; }
+
+.qr { width: 30mm; height: 30mm; display: block; }
+
+/* small screens: single column (keep AFTER the base rules — same specificity) */
+@media (max-width: 700px) {
+  .cols { grid-template-columns: 1fr; }
+  .head { grid-template-columns: 1fr; }
+  .head .qr { order: 1; margin-top: 2mm; }
+}
