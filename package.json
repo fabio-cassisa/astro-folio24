@@ -9,12 +9,18 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "qr:resume": "node scripts/portrait-qr.mjs",
+    "resume:pdf": "astro build && node scripts/export-resume.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.7",
     "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.62.1",
+    "qrcode": "^1.5.4"
   }
 }
