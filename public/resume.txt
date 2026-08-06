@@ -1,0 +1,60 @@
+FABIO CASSISA
+designer · maker · coder
+
+role: creative technologist
+base: malmö, se — remote-friendly
+web: dagas-portfolio.vercel.app
+mail: cassisafabio97@gmail.com
+git: github.com/fabio-cassisa
+in: linkedin.com/in/fabiocassisa
+
+EXPERIENCE
+----------
+Creative Developer — Adnami (Copenhagen, DK, 2024 — present)
+- Own the creative development pipeline for high-impact ad formats (Skin, Midscroll, Topscroll) — from Figma to certified, shipped creatives for major brands across the Nordics.
+- Built globally certified format templates for programmatic execution; drive format R&D and design research for new products.
+- Design and build AI-agentic tooling for the creative workflow — automated QA, delivery pipelines, and an agent-assisted production system used daily.
+
+CTO & Co-Founder → Advisor — 4Foodies (Turin, IT, 2021 — 2025)
+- Co-founded a food-tech startup; owned brand identity, product design and web. Raised ~500k EUR and opened a physical store; transitioned to advisor after selling shares.
+
+2022–23  Design Researcher — Design Disciplin, Malmö (design-career research tool)
+2021  Creative Technologist — Art Value, Stockholm (KTH-incubated digital art platform)
+2021  Commercial & Interior Design — IKEA, Turin (3ds Max store layouts, launches)
+2020–21  Designer & Developer — Pangramma, Turin (client sites, GSAP/Three.js/D3)
+
+PROJECTS
+--------
+carlos [ts, lancedb, mcp]
+Local-first AI agent system — memory, vector search, MCP tools, self-improving workflows. My daily dev sidekick.
+
+this résumé & portfolio [astro, tailwind]
+Terminal-aesthetic site with a live ASCII hero, draggable windows and a palette picker; this PDF is printed from it by code.
+
+sculptr [three.js, next.js, electron]
+Turn any SVG or sketch into an interactive 3D sculpture — real-time extrusion, materials, lighting, and export.
+
+client studio work [astro, next.js, gsap]
+Sites for studios & artists — music studio with audio-reactive waveform, bilingual tattoo-studio rebuilds, booking platforms.
+
+SKILLS
+------
+code: typescript, javascript, python, html/css
+web: astro, react, next.js, node.js
+motion: gsap, three.js, web audio
+ai/agents: mcp, anthropic, vector search
+design: figma, adobe cc, blender, rhino
+
+EDUCATION
+---------
+2021–22  MSc Interaction Design — Malmö University
+2019–20  HCI exchange — KTH, Stockholm
+2017–21  BSc Industrial & Visual Design — Politecnico di Torino
+
+LANGUAGES
+---------
+it: native
+en: fluent
+sv: fluent
+da: working
+es: conversational

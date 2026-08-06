@@ -51,3 +51,16 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size
 mkdirSync('public/images', { recursive: true });
 writeFileSync('public/images/portrait-qr.svg', svg);
 console.log(`portrait-qr.svg: ${n}x${n} modules, window ${HOLE}, target ${URL_TARGET}`);
+
+// also rasterize to PNG — the resume page embeds the PNG so the PDF text
+// layer stays clean (SVG <text> would leak ascii garbage into extraction)
+const { chromium } = await import('playwright-core');
+const PX = 720; // 30mm at ~600dpi
+const browser = await chromium.launch({ channel: 'chrome' });
+const page = await browser.newPage({ viewport: { width: PX, height: PX } });
+await page.setContent(
+  `<body style="margin:0">${svg.replace('<svg ', `<svg width="${PX}" height="${PX}" `)}</body>`
+);
+await page.screenshot({ path: 'public/images/portrait-qr.png', type: 'png' });
+await browser.close();
+console.log(`portrait-qr.png: ${PX}x${PX}px`);
