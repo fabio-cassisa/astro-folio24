@@ -36,7 +36,7 @@ body { margin: 0; display: grid; place-items: start center; padding: 3rem 1rem; 
 .bar .dot { width: 9px; height: 9px; border-radius: 50%; }
 .bar .t { margin-inline: auto; color: #8a8a99; }
 
-.page { padding: 10mm 12mm 7mm; display: flex; flex-direction: column; gap: 6mm; flex: 1; }
+.page { padding: 9mm 12mm 6mm; display: flex; flex-direction: column; gap: 4.5mm; flex: 1; }
 
 /* header: neofetch block + portrait-QR */
 .head { display: grid; grid-template-columns: 1fr auto; gap: 8mm; align-items: start; }
@@ -59,7 +59,7 @@ h2 .cmd { color: var(--teal); font-weight: 500; }
 h2 .sr { color: var(--muted); font-weight: 400; font-size: 7.5pt; text-transform: none; }
 
 /* experience */
-.role { margin-bottom: 4.5mm; break-inside: avoid; }
+.role { margin-bottom: 3.5mm; break-inside: avoid; }
 .role-head { display: flex; align-items: baseline; gap: 3mm; font-family: var(--mono); }
 .role-head b { font-size: 10pt; font-weight: 700; }
 .role-head .co { color: var(--teal); font-weight: 600; font-size: 9.5pt; }
@@ -79,7 +79,7 @@ h2 .sr { color: var(--muted); font-weight: 400; font-size: 7.5pt; text-transform
 .proj p { font: 400 8.5pt/1.4 var(--sans); margin: 0.5mm 0 0; }
 
 .rail { display: flex; flex-direction: column; gap: 4.5mm; min-width: 0; }
-.stack .grp { font: 400 8pt/1.7 var(--mono); }
+.stack .grp { font: 400 8pt/1.55 var(--mono); margin-bottom: 0.6mm; }
 .stack .grp b { color: var(--green); font-weight: 600; }
 .kv { font: 400 8.5pt/1.7 var(--mono); }
 .kv .k { color: var(--green); font-weight: 600; display: inline-block; width: 8mm; }

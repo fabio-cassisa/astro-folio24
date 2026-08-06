@@ -14,6 +14,7 @@ export const resume = {
 
   header: [
     { k: 'role', v: 'creative technologist' },
+    { k: 'exp', v: '6+ years across design, code & fabrication' },
     { k: 'base', v: 'malmö, se — remote-friendly' },
     { k: 'web', v: info.baseUrl.replace('https://', '') },
     { k: 'mail', v: info.contact.email },
@@ -59,28 +60,30 @@ export const resume = {
       tags: ['ts', 'lancedb', 'mcp'],
     },
     {
-      title: 'this résumé & portfolio',
-      blurb: 'Terminal-aesthetic site with a live ASCII hero, draggable windows and a palette picker; this PDF is printed from it by code.',
-      tags: ['astro', 'tailwind'],
-    },
-    {
       title: 'sculptr',
-      blurb: 'Turn any SVG or sketch into an interactive 3D sculpture — real-time extrusion, materials, lighting, and export.',
+      blurb: 'Design tool that turns any SVG or sketch into an interactive 3D sculpture — real-time extrusion, materials, lighting, and export.',
       tags: ['three.js', 'next.js', 'electron'],
     },
     {
+      title: 'resonance',
+      blurb: 'Wearable haptic communication — two micro:bit devices exchanging touch as vibration over radio. IxD research, prototyped and built.',
+      tags: ['micro:bit', 'hardware', 'ixd'],
+    },
+    {
       title: 'client studio work',
-      blurb: 'Sites for studios & artists — music studio with audio-reactive waveform, bilingual tattoo-studio rebuilds, booking platforms.',
+      blurb: 'Design-led sites for studios & artists — brand audit to shipped product: identity, UI, motion, booking flows.',
       tags: ['astro', 'next.js', 'gsap'],
     },
   ],
 
   stack: {
     code: ['typescript', 'javascript', 'python', 'html/css'],
-    web: ['astro', 'react', 'next.js', 'node.js'],
-    motion: ['gsap', 'three.js', 'web audio'],
-    'ai/agents': ['mcp', 'anthropic', 'vector search'],
-    design: ['figma', 'adobe cc', 'blender', 'rhino'],
+    web: ['astro', 'react', 'next.js', 'node.js', 'svelte', 'tailwind'],
+    motion: ['gsap', 'three.js', 'web audio', 'canvas'],
+    'ai/agents': ['mcp', 'anthropic', 'lancedb', 'vector search'],
+    design: ['figma', 'adobe cc', 'xd', 'davinci resolve'],
+    '3d/fab': ['blender', 'rhino', 'keyshot', '3d printing'],
+    hardware: ['arduino', 'raspberry pi', 'micro:bit'],
   },
 
   education: [

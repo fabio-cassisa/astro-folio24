@@ -2,6 +2,7 @@ FABIO CASSISA
 designer · maker · coder
 
 role: creative technologist
+exp: 6+ years across design, code & fabrication
 base: malmö, se — remote-friendly
 web: dagas-portfolio.vercel.app
 mail: cassisafabio97@gmail.com
@@ -28,22 +29,24 @@ PROJECTS
 carlos [ts, lancedb, mcp]
 Local-first AI agent system — memory, vector search, MCP tools, self-improving workflows. My daily dev sidekick.
 
-this résumé & portfolio [astro, tailwind]
-Terminal-aesthetic site with a live ASCII hero, draggable windows and a palette picker; this PDF is printed from it by code.
-
 sculptr [three.js, next.js, electron]
-Turn any SVG or sketch into an interactive 3D sculpture — real-time extrusion, materials, lighting, and export.
+Design tool that turns any SVG or sketch into an interactive 3D sculpture — real-time extrusion, materials, lighting, and export.
+
+resonance [micro:bit, hardware, ixd]
+Wearable haptic communication — two micro:bit devices exchanging touch as vibration over radio. IxD research, prototyped and built.
 
 client studio work [astro, next.js, gsap]
-Sites for studios & artists — music studio with audio-reactive waveform, bilingual tattoo-studio rebuilds, booking platforms.
+Design-led sites for studios & artists — brand audit to shipped product: identity, UI, motion, booking flows.
 
 SKILLS
 ------
 code: typescript, javascript, python, html/css
-web: astro, react, next.js, node.js
-motion: gsap, three.js, web audio
-ai/agents: mcp, anthropic, vector search
-design: figma, adobe cc, blender, rhino
+web: astro, react, next.js, node.js, svelte, tailwind
+motion: gsap, three.js, web audio, canvas
+ai/agents: mcp, anthropic, lancedb, vector search
+design: figma, adobe cc, xd, davinci resolve
+3d/fab: blender, rhino, keyshot, 3d printing
+hardware: arduino, raspberry pi, micro:bit
 
 EDUCATION
 ---------
