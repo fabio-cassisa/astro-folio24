@@ -1,7 +1,7 @@
-# dagas
+# dagas-card
 
 ```
-npx dagas
+npx dagas-card
 ```
 
 Fabio Cassisa's résumé card, in your terminal. Printed on the paper résumé at
